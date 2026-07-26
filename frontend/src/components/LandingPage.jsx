@@ -1,7 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Play, Database, Mic, Sparkles, Award, ShieldCheck, FileText, ArrowRight, Zap, Code, Gamepad2, Layout, Server, Cpu, Users, RefreshCw, CheckCircle2 } from 'lucide-react';
 
 export default function LandingPage({ onStartInterview, onExploreRag }) {
+  const fullHeadline = "Master Technical Interviews with AI Vector RAG";
+  const [typedText, setTypedText] = useState("");
+  const [isDone, setIsDone] = useState(false);
+
+  useEffect(() => {
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index <= fullHeadline.length) {
+        setTypedText(fullHeadline.slice(0, index));
+        index++;
+      } else {
+        setIsDone(true);
+        clearInterval(timer);
+      }
+    }, 40);
+
+    return () => clearInterval(timer);
+  }, []);
+
   const [simQuery, setSimQuery] = useState("React Concurrent Rendering & useTransition");
   const [simScore, setSimScore] = useState(94.8);
   const [simDistance, setSimDistance] = useState(0.142);
@@ -31,9 +50,13 @@ export default function LandingPage({ onStartInterview, onExploreRag }) {
     { title: "Behavioral & HR", icon: Users, color: "var(--accent-rose)", topics: "STAR Method • Leadership • Stories" }
   ];
 
+  // Helper to split normal vs gradient text during typewriter effect
+  const mainPart = typedText.slice(0, 32);
+  const ragPart = typedText.slice(32);
+
   return (
     <div style={{ maxWidth: '1240px', margin: '0 auto', padding: '36px 16px' }}>
-      
+
       {/* 🚀 Hero Section with Glowing Mesh Lighting */}
       <div className="panel-card" style={{
         padding: '52px 32px',
@@ -46,7 +69,7 @@ export default function LandingPage({ onStartInterview, onExploreRag }) {
         overflow: 'hidden',
         borderRadius: 'var(--radius-lg)'
       }}>
-        
+
         <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '20px', background: 'rgba(99, 102, 241, 0.12)', padding: '6px 16px', borderRadius: '20px', border: '1px solid rgba(99, 102, 241, 0.3)' }}>
           <Sparkles size={16} color="var(--accent-indigo)" />
           <span style={{ fontSize: '0.82rem', fontWeight: 700, color: 'var(--accent-indigo)', letterSpacing: '0.02em' }}>
@@ -61,9 +84,22 @@ export default function LandingPage({ onStartInterview, onExploreRag }) {
           lineHeight: '1.15',
           letterSpacing: '-0.03em',
           maxWidth: '900px',
-          margin: '0 auto 20px auto'
+          margin: '0 auto 20px auto',
+          minHeight: '2.3em'
         }}>
-          Master Technical Interviews with <span style={{ background: 'linear-gradient(90deg, #6366f1, #06b6d4, #10b981)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AI Vector RAG</span>
+          {mainPart}
+          {ragPart && (
+            <span style={{ background: 'linear-gradient(90deg, #6366f1, #06b6d4, #10b981)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
+              {ragPart}
+            </span>
+          )}
+          <span style={{
+            color: 'var(--accent-cyan)',
+            fontWeight: 400,
+            opacity: isDone ? 0 : 1,
+            animation: 'pulseDot 0.6s infinite',
+            marginLeft: '4px'
+          }}>|</span>
         </h1>
 
         <p style={{
@@ -111,90 +147,9 @@ export default function LandingPage({ onStartInterview, onExploreRag }) {
 
       </div>
 
-      {/* ⚡ LIVE INTERACTIVE RAG SIMULATOR WIDGET (Judges WOW Feature) */}
-      <div className="panel-card" style={{
-        padding: '28px',
-        marginBottom: '48px',
-        border: '1px solid var(--accent-indigo-subtle)',
-        background: 'var(--bg-panel)',
-        borderRadius: 'var(--radius-lg)'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '20px' }}>
-          <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
-              <span className="badge badge-indigo">Interactive Live Demo</span>
-              <span className="badge badge-cyan">ChromaDB Cosine Space</span>
-            </div>
-            <h3 style={{ fontSize: '1.25rem', color: 'var(--text-heading)', fontWeight: 800 }}>
-              Test ChromaDB RAG Vector Similarity Search
-            </h3>
-          </div>
-          <span style={{ fontSize: '0.78rem', color: 'var(--accent-emerald)', background: 'var(--accent-emerald-subtle)', padding: '4px 12px', borderRadius: '12px', fontWeight: 600 }}>
-            ● HNSW Vector Index Loaded
-          </span>
-        </div>
-
-        {/* Preset Sample Query Buttons */}
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
-          {sampleQueries.map((item, idx) => (
-            <button
-              key={idx}
-              onClick={() => handleSelectSim(item)}
-              style={{
-                background: simQuery === item.query ? 'var(--accent-indigo)' : 'var(--bg-subtle)',
-                color: simQuery === item.query ? '#fff' : 'var(--text-muted)',
-                border: `1px solid ${simQuery === item.query ? 'var(--accent-indigo)' : 'var(--border-subtle)'}`,
-                padding: '6px 14px',
-                borderRadius: '8px',
-                fontSize: '0.82rem',
-                fontWeight: 600,
-                cursor: 'pointer',
-                transition: 'all 0.15s ease'
-              }}
-            >
-              {item.query}
-            </button>
-          ))}
-        </div>
-
-        {/* Simulated Live Matching Feedback Card */}
-        <div style={{
-          background: 'var(--bg-surface)',
-          border: '1px solid var(--border-subtle)',
-          borderRadius: 'var(--radius-md)',
-          padding: '20px'
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '12px', marginBottom: '14px' }}>
-            <div style={{ fontSize: '0.92rem', color: 'var(--text-heading)', fontWeight: 700 }}>
-              Query Vector: <span style={{ color: 'var(--accent-cyan)' }}>"{simQuery}"</span>
-            </div>
-            <div style={{ display: 'flex', gap: '12px', fontSize: '0.85rem' }}>
-              <span>Cosine Distance: <strong style={{ color: 'var(--accent-indigo)' }}>{simDistance}</strong></span>
-              <span>RAG Match Score: <strong style={{ color: 'var(--accent-emerald)' }}>{simScore}%</strong></span>
-            </div>
-          </div>
-
-          {/* Animated Progress Meter Bar */}
-          <div style={{ width: '100%', height: '8px', background: 'var(--bg-subtle)', borderRadius: '4px', overflow: 'hidden', marginBottom: '14px' }}>
-            <div style={{
-              width: `${simScore}%`,
-              height: '100%',
-              background: 'linear-gradient(90deg, #6366f1, #06b6d4, #10b981)',
-              borderRadius: '4px',
-              transition: 'width 0.4s cubic-bezier(0.4, 0, 0.2, 1)'
-            }} />
-          </div>
-
-          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.78rem', color: 'var(--text-dim)' }}>
-            <CheckCircle2 size={15} color="var(--accent-emerald)" />
-            <span>Retrieved Knowledge Chunk: <code className="code-font" style={{ color: 'var(--accent-indigo)' }}>{simDoc}</code></span>
-          </div>
-        </div>
-      </div>
-
       {/* 💡 Feature Cards Grid */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))', gap: '20px', marginBottom: '48px' }}>
-        
+
         <div className="panel-card panel-card-hover" style={{ padding: '24px' }}>
           <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'var(--accent-indigo-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
             <Mic size={22} color="var(--accent-indigo)" />
