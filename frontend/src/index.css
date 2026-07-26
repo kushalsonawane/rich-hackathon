@@ -314,6 +314,49 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-main) !important;
 }
 
+/* Responsive Breakpoints for Mobile & Tablet */
+@media (max-width: 960px) {
+  .live-session-grid,
+  .feedback-grid,
+  .setup-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .hero-banner {
+    padding: 20px !important;
+  }
+
+  .panel-card {
+    padding: 18px !important;
+  }
+}
+
+@media (max-width: 640px) {
+  body {
+    font-size: 0.9rem;
+  }
+
+  h1 { font-size: 1.1rem !important; }
+  h2 { font-size: 1.3rem !important; }
+  h3 { font-size: 1.1rem !important; }
+
+  header {
+    padding: 10px 14px !important;
+  }
+
+  nav {
+    overflow-x: auto !important;
+    max-width: 100% !important;
+    white-space: nowrap !important;
+  }
+
+  .modal-content {
+    padding: 16px !important;
+    margin: 10px !important;
+    max-height: 95vh !important;
+  }
+}
+
 /* @media print styles for PDF export */
 @media print {
   header, nav, .no-print, button, .app-header {
@@ -334,4 +377,5 @@ h1, h2, h3, h4, h5, h6 {
     color: #111111 !important;
   }
 }
+
 

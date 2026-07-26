@@ -31,10 +31,18 @@ export async function fetchQuestionsByRole(roleId, difficulty = "Senior", custom
 
   // Fallback to local RAG mock engine
   await new Promise((resolve) => setTimeout(resolve, 600)); // Realistic network latency simulation
-  let filtered = INITIAL_QUESTION_BANK.filter((q) => q.roleId === roleId || roleId === "all");
+  let roleFiltered = INITIAL_QUESTION_BANK.filter((q) => q.roleId === roleId || roleId === "all");
   
+  let filtered = roleFiltered;
+  if (difficulty) {
+    const diffMatches = roleFiltered.filter((q) => q.difficulty.toLowerCase() === difficulty.toLowerCase());
+    if (diffMatches.length > 0) {
+      filtered = diffMatches;
+    }
+  }
+
   if (filtered.length === 0) {
-    filtered = INITIAL_QUESTION_BANK;
+    filtered = roleFiltered.length > 0 ? roleFiltered : INITIAL_QUESTION_BANK;
   }
 
   if (customJd && customJd.trim().length > 10) {

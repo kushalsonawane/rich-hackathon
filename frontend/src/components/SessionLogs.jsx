@@ -94,7 +94,7 @@ export default function SessionLogs({ localSessions = [] }) {
       </div>
 
       {/* Logs Table */}
-      <div className="panel-card" style={{ overflow: 'hidden' }}>
+      <div className="panel-card" style={{ overflowX: 'auto', WebkitOverflowScrolling: 'touch' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse', textAlign: 'left', fontSize: '0.88rem' }}>
           <thead>
             <tr style={{ background: 'var(--bg-subtle)', borderBottom: '1px solid var(--border-subtle)', color: 'var(--text-muted)' }}>

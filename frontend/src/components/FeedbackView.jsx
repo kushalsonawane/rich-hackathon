@@ -82,7 +82,7 @@ export default function FeedbackView({ evaluation, role, candidateName, onRestar
       </div>
 
       {/* Main Scorecard & Breakdown Grid */}
-      <div style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: '24px', marginBottom: '28px' }}>
+      <div className="feedback-grid" style={{ display: 'grid', gridTemplateColumns: '320px 1fr', gap: '24px', marginBottom: '28px' }}>
         
         {/* Left Column: Overall Score Card */}
         <div className="panel-card" style={{ padding: '28px', textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }}>

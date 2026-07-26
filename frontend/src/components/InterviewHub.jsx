@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import { ROLES_CONFIG } from '../data/mockData';
-import { Cpu, Layout, Server, Network, Users, Sparkles, Upload, Play, Check, ShieldCheck, FileText } from 'lucide-react';
+import { Cpu, Layout, Server, Network, Users, Gamepad2, Code, Sparkles, Upload, Play, Check, ShieldCheck, FileText } from 'lucide-react';
 import LiveSession from './LiveSession';
 import FeedbackView from './FeedbackView';
 
 const ICON_MAP = {
   Cpu: Cpu,
+  Code: Code,
+  Gamepad2: Gamepad2,
   Layout: Layout,
   Server: Server,
   Network: Network,
@@ -87,41 +89,39 @@ export default function InterviewHub({ onSessionComplete, apiConfig }) {
   }
 
   return (
-    <div style={{ maxWidth: '1300px', margin: '0 auto', padding: '28px 16px' }}>
+    <div style={{ maxWidth: '1250px', margin: '0 auto', padding: '28px 16px' }}>
       
       {/* Hero Banner */}
-      <div className="hero-banner" style={{ padding: '32px', marginBottom: '32px' }}>
+      <div className="hero-banner" style={{ padding: '28px', marginBottom: '28px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '20px' }}>
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '10px' }}>
-              <span className="badge badge-indigo">AI Mock Interview Engine</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px' }}>
+              <span className="badge badge-indigo">AI Mock Interview</span>
               <span className="badge badge-emerald">ChromaDB RAG Powered</span>
             </div>
-            <h2 style={{ fontSize: '2rem', color: 'var(--text-heading)', fontWeight: 800 }}>Configure Your AI Mock Interview</h2>
-            <p style={{ color: 'var(--text-muted)', marginTop: '6px', maxWidth: '720px', fontSize: '1rem', lineHeight: '1.6' }}>
-              Select a specialized technical track or upload your custom Job Description (JD) to generate vector-indexed mock questions benchmarked against top tech companies.
+            <h2 style={{ fontSize: '1.8rem', color: 'var(--text-heading)', fontWeight: 800 }}>Choose Your Interview Track</h2>
+            <p style={{ color: 'var(--text-muted)', marginTop: '4px', fontSize: '0.95rem' }}>
+              Select a role track below and launch your voice-guided AI mock interview session.
             </p>
           </div>
 
-          <div style={{ display: 'flex', gap: '14px' }}>
-            <button onClick={handleStartInterview} className="btn-primary" style={{ padding: '14px 28px', fontSize: '1rem', fontWeight: 600 }}>
-              <Play size={20} />
-              Launch AI Mock Interview
-            </button>
-          </div>
+          <button onClick={handleStartInterview} className="btn-primary" style={{ padding: '14px 28px', fontSize: '1rem', fontWeight: 600 }}>
+            <Play size={20} />
+            Start Interview Now
+          </button>
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 360px', gap: '28px' }}>
+      <div className="setup-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: '24px' }}>
         
         {/* Left Column: Role Track Selection Grid */}
         <div>
-          <h3 style={{ fontSize: '1.25rem', marginBottom: '20px', display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-heading)' }}>
-            <Sparkles size={20} color="var(--accent-indigo)" />
-            Step 1: Choose Your Specialization Track
+          <h3 style={{ fontSize: '1.15rem', marginBottom: '16px', display: 'flex', alignItems: 'center', gap: '8px', color: 'var(--text-heading)' }}>
+            <Sparkles size={18} color="var(--accent-indigo)" />
+            Select Specialization Track
           </h3>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(290px, 1fr))', gap: '18px', marginBottom: '32px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
             {ROLES_CONFIG.map((role) => {
               const IconComp = ICON_MAP[role.icon] || Cpu;
               const isSelected = selectedRole.id === role.id;
@@ -132,7 +132,7 @@ export default function InterviewHub({ onSessionComplete, apiConfig }) {
                   onClick={() => handleRoleSelect(role)}
                   className={`panel-card ${isSelected ? 'panel-card-active' : 'panel-card-hover'}`}
                   style={{
-                    padding: '24px',
+                    padding: '20px',
                     cursor: 'pointer',
                     position: 'relative'
                   }}
@@ -140,12 +140,12 @@ export default function InterviewHub({ onSessionComplete, apiConfig }) {
                   {isSelected && (
                     <div style={{
                       position: 'absolute',
-                      top: '16px',
-                      right: '16px',
+                      top: '14px',
+                      right: '14px',
                       background: 'var(--accent-indigo)',
                       borderRadius: '50%',
-                      width: '24px',
-                      height: '24px',
+                      width: '22px',
+                      height: '22px',
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
@@ -156,30 +156,30 @@ export default function InterviewHub({ onSessionComplete, apiConfig }) {
                   )}
 
                   <div style={{
-                    width: '44px',
-                    height: '44px',
-                    borderRadius: '12px',
+                    width: '40px',
+                    height: '40px',
+                    borderRadius: '10px',
                     background: isSelected ? 'var(--accent-indigo-subtle)' : 'var(--bg-subtle)',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center',
-                    marginBottom: '16px'
+                    marginBottom: '12px'
                   }}>
-                    <IconComp size={24} color={isSelected ? 'var(--accent-indigo)' : 'var(--text-muted)'} />
+                    <IconComp size={22} color={isSelected ? 'var(--accent-indigo)' : 'var(--text-muted)'} />
                   </div>
 
-                  <h4 style={{ fontSize: '1.1rem', marginBottom: '6px', color: 'var(--text-heading)', fontWeight: 700 }}>{role.title}</h4>
-                  <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginBottom: '16px', minHeight: '44px', lineHeight: '1.5' }}>
+                  <h4 style={{ fontSize: '1.05rem', marginBottom: '4px', color: 'var(--text-heading)', fontWeight: 700 }}>{role.title}</h4>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-muted)', marginBottom: '12px', minHeight: '38px', lineHeight: '1.4' }}>
                     {role.description}
                   </p>
 
                   <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
                     {role.topics.slice(0, 3).map((topic, i) => (
                       <span key={i} style={{
-                        fontSize: '0.74rem',
+                        fontSize: '0.72rem',
                         background: 'var(--bg-subtle)',
                         border: '1px solid var(--border-subtle)',
-                        padding: '3px 10px',
+                        padding: '2px 8px',
                         borderRadius: '6px',
                         color: 'var(--text-muted)'
                       }}>
@@ -191,62 +191,13 @@ export default function InterviewHub({ onSessionComplete, apiConfig }) {
               );
             })}
           </div>
-
-          {/* Job Description Custom RAG Context Uploader */}
-          <div className="panel-card" style={{ padding: '24px' }}>
-            <h3 style={{ fontSize: '1.15rem', marginBottom: '12px', display: 'flex', alignItems: 'center', gap: '10px', color: 'var(--text-heading)' }}>
-              <Upload size={20} color="var(--accent-cyan)" />
-              Custom RAG Context (Target JD or Resume)
-            </h3>
-
-            <div
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleJdDrop}
-              style={{
-                border: '2px dashed var(--border-strong)',
-                borderRadius: 'var(--radius-md)',
-                padding: '24px',
-                textAlign: 'center',
-                background: 'var(--bg-panel)',
-                cursor: 'pointer'
-              }}
-            >
-              <FileText size={34} color="var(--accent-cyan)" style={{ marginBottom: '10px' }} />
-              <p style={{ fontSize: '0.95rem', color: 'var(--text-heading)', fontWeight: 600 }}>
-                Drag & Drop Target Job Description (PDF / TXT) or paste text below
-              </p>
-              <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginTop: '4px' }}>
-                The RAG engine embeds your custom requirements into ChromaDB for personalized questioning.
-              </p>
-
-              <textarea
-                value={customJd}
-                onChange={(e) => setCustomJd(e.target.value)}
-                placeholder="Paste Job Description text here (e.g. Seeking Senior React / Python Engineer with RAG vector search experience)..."
-                style={{
-                  width: '100%',
-                  height: '90px',
-                  marginTop: '14px',
-                  padding: '12px',
-                  fontSize: '0.88rem',
-                  resize: 'none'
-                }}
-              />
-              {isJdUploaded && (
-                <div style={{ marginTop: '10px', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', color: 'var(--accent-emerald)', fontSize: '0.88rem', fontWeight: 600 }}>
-                  <ShieldCheck size={18} /> Custom RAG Embeddings Indexed Successfully!
-                </div>
-              )}
-            </div>
-          </div>
         </div>
 
-        {/* Right Column: Profile & Mode Controls */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+        {/* Right Column: Configuration & Launch */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           
-          {/* Candidate Profile Box */}
-          <div className="panel-card" style={{ padding: '24px' }}>
-            <h3 style={{ fontSize: '1.1rem', marginBottom: '16px', color: 'var(--text-heading)', fontWeight: 700 }}>Candidate Profile</h3>
+          <div className="panel-card" style={{ padding: '22px' }}>
+            <h3 style={{ fontSize: '1.05rem', marginBottom: '16px', color: 'var(--text-heading)', fontWeight: 700 }}>Interview Settings</h3>
             
             <div style={{ marginBottom: '16px' }}>
               <label style={{ fontSize: '0.82rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px', fontWeight: 600 }}>Candidate Name</label>
@@ -256,21 +207,21 @@ export default function InterviewHub({ onSessionComplete, apiConfig }) {
                 onChange={(e) => setCandidateName(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '10px 14px',
-                  fontSize: '0.92rem'
+                  padding: '9px 12px',
+                  fontSize: '0.9rem'
                 }}
               />
             </div>
 
             <div style={{ marginBottom: '16px' }}>
-              <label style={{ fontSize: '0.82rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px', fontWeight: 600 }}>Target Seniority Level</label>
+              <label style={{ fontSize: '0.82rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px', fontWeight: 600 }}>Target Difficulty</label>
               <select
                 value={difficulty}
                 onChange={(e) => setDifficulty(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '10px 14px',
-                  fontSize: '0.92rem'
+                  padding: '9px 12px',
+                  fontSize: '0.9rem'
                 }}
               >
                 {selectedRole.difficultyLevels.map((lvl, i) => (
@@ -279,92 +230,31 @@ export default function InterviewHub({ onSessionComplete, apiConfig }) {
               </select>
             </div>
 
-            <div>
-              <label style={{ fontSize: '0.82rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px', fontWeight: 600 }}>Target Company Benchmark</label>
+            <div style={{ marginBottom: '20px' }}>
+              <label style={{ fontSize: '0.82rem', color: 'var(--text-muted)', display: 'block', marginBottom: '6px', fontWeight: 600 }}>Interview Mode</label>
               <select
-                value={targetCompany}
-                onChange={(e) => setTargetCompany(e.target.value)}
+                value={mode}
+                onChange={(e) => setMode(e.target.value)}
                 style={{
                   width: '100%',
-                  padding: '10px 14px',
-                  fontSize: '0.92rem'
+                  padding: '9px 12px',
+                  fontSize: '0.9rem'
                 }}
               >
-                {selectedRole.targetCompanies.map((comp, i) => (
-                  <option key={i} value={comp}>{comp}</option>
-                ))}
+                <option value="video">Voice & Video Feed</option>
+                <option value="voice">Voice Only</option>
+                <option value="text">Text Workspace</option>
               </select>
             </div>
+
+            <button onClick={handleStartInterview} className="btn-primary" style={{ width: '100%', justifyContent: 'center', padding: '12px', fontSize: '0.95rem' }}>
+              <Play size={18} />
+              Launch Session ({selectedRole.title})
+            </button>
           </div>
-
-          {/* Mode Selector Box */}
-          <div className="panel-card" style={{ padding: '24px' }}>
-            <h3 style={{ fontSize: '1.1rem', marginBottom: '16px', color: 'var(--text-heading)', fontWeight: 700 }}>Interview Mode</h3>
-
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-              <label style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '12px',
-                background: mode === 'video' ? 'var(--accent-indigo-subtle)' : 'var(--bg-subtle)',
-                border: `1px solid ${mode === 'video' ? 'var(--accent-indigo)' : 'var(--border-subtle)'}`,
-                borderRadius: 'var(--radius-md)',
-                cursor: 'pointer'
-              }}>
-                <input type="radio" name="interviewMode" checked={mode === 'video'} onChange={() => setMode('video')} />
-                <div>
-                  <div style={{ fontWeight: 600, fontSize: '0.92rem', color: 'var(--text-heading)' }}>🎥 Webcam + AI Voice</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Full camera viewport & voice synthesis</div>
-                </div>
-              </label>
-
-              <label style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '12px',
-                background: mode === 'voice' ? 'var(--accent-indigo-subtle)' : 'var(--bg-subtle)',
-                border: `1px solid ${mode === 'voice' ? 'var(--accent-indigo)' : 'var(--border-subtle)'}`,
-                borderRadius: 'var(--radius-md)',
-                cursor: 'pointer'
-              }}>
-                <input type="radio" name="interviewMode" checked={mode === 'voice'} onChange={() => setMode('voice')} />
-                <div>
-                  <div style={{ fontWeight: 600, fontSize: '0.92rem', color: 'var(--text-heading)' }}>🎙️ Voice Only</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Real-time audio waveform & speech TTS</div>
-                </div>
-              </label>
-
-              <label style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '12px',
-                padding: '12px',
-                background: mode === 'text' ? 'var(--accent-indigo-subtle)' : 'var(--bg-subtle)',
-                border: `1px solid ${mode === 'text' ? 'var(--accent-indigo)' : 'var(--border-subtle)'}`,
-                borderRadius: 'var(--radius-md)',
-                cursor: 'pointer'
-              }}>
-                <input type="radio" name="interviewMode" checked={mode === 'text'} onChange={() => setMode('text')} />
-                <div>
-                  <div style={{ fontWeight: 600, fontSize: '0.92rem', color: 'var(--text-heading)' }}>💬 Text Chat</div>
-                  <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Written response input</div>
-                </div>
-              </label>
-            </div>
-          </div>
-
-          {/* Quick Launch CTA */}
-          <button onClick={handleStartInterview} className="btn-primary" style={{ width: '100%', padding: '16px', justifyContent: 'center', fontSize: '1.05rem', fontWeight: 700 }}>
-            <Play size={20} />
-            Launch AI Mock Interview
-          </button>
 
         </div>
-
       </div>
-
     </div>
   );
 }

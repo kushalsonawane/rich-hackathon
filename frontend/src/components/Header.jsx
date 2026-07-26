@@ -7,8 +7,7 @@ export default function Header({ activeTab, setActiveTab, apiConfig, setApiConfi
     <header style={{
       background: 'var(--bg-surface)',
       borderBottom: '1px solid var(--border-subtle)',
-      position: 'sticky',
-      top: 0,
+      position: 'relative',
       zIndex: 50,
       padding: '12px 24px',
       transition: 'background-color 0.2s ease, border-color 0.2s ease'
@@ -24,10 +23,10 @@ export default function Header({ activeTab, setActiveTab, apiConfig, setApiConfi
       }}>
         
         {/* Left Branding */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <div style={{
-            width: '36px',
-            height: '36px',
+            width: '34px',
+            height: '34px',
             borderRadius: '8px',
             background: 'var(--accent-indigo)',
             display: 'flex',
@@ -35,22 +34,16 @@ export default function Header({ activeTab, setActiveTab, apiConfig, setApiConfi
             justifyContent: 'center',
             color: '#fff'
           }}>
-            <Zap size={20} />
+            <Zap size={18} />
           </div>
 
           <div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-              <span className="badge badge-indigo" style={{ fontSize: '0.68rem', padding: '1px 6px' }}>
-                {HACKATHON_INFO.headerBadge}
-              </span>
-              <span className="badge badge-cyan" style={{ fontSize: '0.68rem', padding: '1px 6px' }}>
-                {HACKATHON_INFO.teamCode}
-              </span>
-            </div>
-            
-            <h1 style={{ fontSize: '1.15rem', marginTop: '1px', color: 'var(--text-heading)', fontWeight: 700 }}>
-              {HACKATHON_INFO.appName}
+            <h1 style={{ fontSize: '1.1rem', color: 'var(--text-heading)', fontWeight: 700, lineHeight: 1.2 }}>
+              AI Mock Interview
             </h1>
+            <span style={{ fontSize: '0.72rem', color: 'var(--accent-cyan)', fontWeight: 600 }}>
+              G24 — Level 3 Full RAG
+            </span>
           </div>
         </div>
 
@@ -126,33 +119,10 @@ export default function Header({ activeTab, setActiveTab, apiConfig, setApiConfi
             <Database size={14} />
             RAG Vector Bank
           </button>
-
-          <button
-            onClick={() => setActiveTab('analytics')}
-            style={{
-              padding: '6px 14px',
-              borderRadius: '6px',
-              fontSize: '0.84rem',
-              fontWeight: 500,
-              background: activeTab === 'analytics' ? 'var(--accent-indigo)' : 'transparent',
-              color: activeTab === 'analytics' ? '#fff' : 'var(--text-muted)',
-              border: 'none',
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px',
-              transition: 'all 0.15s ease'
-            }}
-          >
-            <BarChart3 size={14} />
-            Analytics
-          </button>
         </nav>
 
-        {/* Right Actions: Theme Toggle, API Pill & Settings */}
+        {/* Right Action: Theme Toggle */}
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          
-          {/* Theme Switcher Button */}
           <button
             onClick={toggleTheme}
             style={{
@@ -173,48 +143,6 @@ export default function Header({ activeTab, setActiveTab, apiConfig, setApiConfi
           >
             {theme === 'dark' ? <Sun size={15} color="var(--accent-amber)" /> : <Moon size={15} color="var(--accent-indigo)" />}
             <span>{theme === 'dark' ? 'Light' : 'Dark'}</span>
-          </button>
-
-          {/* Backend API Toggle */}
-          <button
-            onClick={() => setApiConfig(prev => ({ ...prev, useRealBackend: !prev.useRealBackend }))}
-            style={{
-              background: apiConfig.useRealBackend ? 'var(--accent-emerald-subtle)' : 'var(--accent-indigo-subtle)',
-              border: `1px solid ${apiConfig.useRealBackend ? 'rgba(16, 185, 129, 0.3)' : 'rgba(99, 102, 241, 0.3)'}`,
-              color: apiConfig.useRealBackend ? 'var(--accent-emerald)' : 'var(--accent-indigo)',
-              padding: '6px 12px',
-              borderRadius: '6px',
-              fontSize: '0.78rem',
-              fontWeight: 600,
-              cursor: 'pointer',
-              display: 'flex',
-              alignItems: 'center',
-              gap: '6px'
-            }}
-            title="Toggle between Standalone RAG Client & Live FastAPI Backend"
-          >
-            {apiConfig.useRealBackend ? <CheckCircle2 size={13} /> : <Cpu size={13} />}
-            {apiConfig.useRealBackend ? "Live Backend API" : "RAG Client Engine"}
-          </button>
-
-          {/* Settings Button */}
-          <button
-            onClick={() => setActiveTab('settings')}
-            style={{
-              background: 'var(--bg-subtle)',
-              border: '1px solid var(--border-subtle)',
-              color: 'var(--text-muted)',
-              width: '32px',
-              height: '32px',
-              borderRadius: '6px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              cursor: 'pointer'
-            }}
-            title="System Settings"
-          >
-            <Settings size={16} />
           </button>
         </div>
 

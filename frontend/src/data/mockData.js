@@ -14,276 +14,278 @@ export const HACKATHON_INFO = {
 
 export const ROLES_CONFIG = [
   {
-    id: "fullstack-rag",
-    title: "Fullstack & AI/RAG Engineer",
-    icon: "Cpu",
-    category: "Engineering",
-    description: "React, Node.js, FastAPI, Vector DBs (ChromaDB), Embeddings & Prompting",
-    popularQuestionsCount: 42,
+    id: "software-engineer",
+    title: "Software Engineer",
+    icon: "Code",
+    category: "General Tech",
+    description: "Data Structures, OOP, Web APIs, Databases & Problem Solving",
+    popularQuestionsCount: 45,
     difficultyLevels: ["Junior", "Mid-Level", "Senior"],
     defaultDifficulty: "Mid-Level",
-    targetCompanies: ["OpenAI", "Anthropic", "Google", "Rich Systems Solution", "Stripe"],
-    topics: ["RAG Architecture", "Vector Embeddings", "React State Management", "FastAPI Endpoints", "MongoDB Indexing"]
+    targetCompanies: ["Google", "Microsoft", "Amazon", "Tech Startups"],
+    topics: ["Object-Oriented Programming", "Arrays vs Linked Lists", "REST APIs", "Debugging", "Algorithms"]
   },
   {
-    id: "react-frontend",
-    title: "Senior Frontend Developer",
-    icon: "Layout",
-    category: "Frontend",
-    description: "Modern React 18/19, Custom Hooks, Performance Optimization, WebSockets & Accessibility",
+    id: "game-developer",
+    title: "Game Developer",
+    icon: "Gamepad2",
+    category: "Game Dev",
+    description: "Unity, Unreal Engine, C++, Game Physics, 3D Rendering & Game Logic",
     popularQuestionsCount: 38,
     difficultyLevels: ["Junior", "Mid-Level", "Senior"],
     defaultDifficulty: "Mid-Level",
-    targetCompanies: ["Vercel", "Meta", "Airbnb", "Microsoft", "Uber"],
-    topics: ["Virtual DOM & Reconciliation", "React Fiber", "Custom Hooks & Context", "CSS Glassmorphism & Animations", "Web Vitals"]
+    targetCompanies: ["EA Games", "Ubisoft", "Epic Games", "Indie Game Studios"],
+    topics: ["Game Loop", "Collision Detection", "Unity & C#", "Unreal Engine", "Physics Engine"]
   },
   {
-    id: "fastapi-backend",
-    title: "FastAPI & Python Backend Specialist",
-    icon: "Server",
-    category: "Backend",
-    description: "Async Python, Pydantic, Microservices, MongoDB aggregation, & ChromaDB RAG pipelines",
-    popularQuestionsCount: 35,
+    id: "frontend-developer",
+    title: "Frontend Developer",
+    icon: "Layout",
+    category: "Frontend",
+    description: "HTML, CSS, JavaScript, React, Responsive Layouts & Web UI",
+    popularQuestionsCount: 40,
     difficultyLevels: ["Junior", "Mid-Level", "Senior"],
     defaultDifficulty: "Mid-Level",
-    targetCompanies: ["FastAPI Inc", "Databricks", "Amazon AWS", "Snowflake"],
-    topics: ["AsyncIO Event Loop", "Dependency Injection", "ChromaDB Similarity Search", "JWT Authentication", "Database Indexing"]
+    targetCompanies: ["Vercel", "Meta", "Airbnb", "Uber"],
+    topics: ["HTML & CSS", "JavaScript ES6", "React State & Props", "Responsive UI", "Web Performance"]
   },
   {
-    id: "system-design",
-    title: "Distributed System Design Architect",
-    icon: "Network",
-    category: "Architecture",
-    description: "High Availability, Cache Invalidation, Vector Search Scaling, Load Balancing & Sharding",
-    popularQuestionsCount: 29,
-    difficultyLevels: ["Mid-Level", "Senior", "Staff Architect"],
+    id: "backend-developer",
+    title: "Backend Developer",
+    icon: "Server",
+    category: "Backend",
+    description: "Node.js, Python, Databases, REST APIs, Security & Server Logic",
+    popularQuestionsCount: 36,
+    difficultyLevels: ["Junior", "Mid-Level", "Senior"],
     defaultDifficulty: "Mid-Level",
-    targetCompanies: ["Netflix", "Meta", "Google Cloud", "Amazon"],
-    topics: ["Vector Database Sharding", "RAG Pipeline Latency", "Consistent Hashing", "Message Queues (Kafka)", "CQRS Pattern"]
+    targetCompanies: ["Amazon AWS", "Stripe", "FastAPI", "MongoDB"],
+    topics: ["Node.js / Express", "Python & FastAPI", "SQL & MongoDB", "Authentication (JWT)", "API Endpoints"]
+  },
+  {
+    id: "ai-ml-engineer",
+    title: "AI & ML Engineer",
+    icon: "Cpu",
+    category: "AI & ML",
+    description: "Python, Machine Learning, LLMs, RAG & Vector Embeddings",
+    popularQuestionsCount: 30,
+    difficultyLevels: ["Junior", "Mid-Level", "Senior"],
+    defaultDifficulty: "Mid-Level",
+    targetCompanies: ["OpenAI", "Anthropic", "Google AI", "Hugging Face"],
+    topics: ["RAG Architecture", "Vector Databases", "Prompt Engineering", "Python ML", "LLM APIs"]
   },
   {
     id: "behavioral-hr",
-    title: "Leadership & Behavioral STAR Method",
+    title: "Behavioral & HR STAR",
     icon: "Users",
     category: "Behavioral",
-    description: "STAR Technique, Conflict Resolution, Technical Leadership, and Stakeholder Management",
+    description: "STAR Method, Teamwork, Communication, Problem Solving & Stories",
     popularQuestionsCount: 25,
     difficultyLevels: ["Junior", "Mid-Level", "Senior"],
     defaultDifficulty: "Mid-Level",
-    targetCompanies: ["All Fortune 500 Companies"],
-    topics: ["STAR Framework", "Handling Disagreements", "Deadlines Under Pressure", "Mentoring Juniors", "Prioritization"]
+    targetCompanies: ["All IT & Tech Companies"],
+    topics: ["STAR Framework", "Team Collaboration", "Project Story", "Handling Pressure", "Strengths"]
   }
 ];
 
 export const INITIAL_QUESTION_BANK = [
+  // ── Software Engineer Track ───────────────────────────────────────────
   {
-    id: "q-rag-01",
-    roleId: "fullstack-rag",
-    difficulty: "Senior",
-    question: "Explain how you would architect a real-time Retrieval-Augmented Generation (RAG) pipeline using FastAPI, ChromaDB, and OpenAI embeddings, ensuring low-latency retrieval for technical interviews.",
-    category: "RAG Architecture",
-    expectedKeywords: ["Embedding", "Cosine Similarity", "ChromaDB", "Chunking", "Top-K Retrieval", "Latency Optimization", "Prompt Injection Defense"],
+    id: "q-se-01",
+    roleId: "software-engineer",
+    difficulty: "Junior",
+    question: "What is Object-Oriented Programming (OOP) and what are its core principles like Encapsulation and Inheritance?",
+    category: "OOP Basics",
+    expectedKeywords: ["OOP", "Encapsulation", "Inheritance", "Polymorphism", "Abstraction"],
     ragBenchmark: {
-      sourceDoc: "ChromaDB_RAG_Best_Practices_2026.pdf (Chunk #42)",
-      similarityScore: 0.964,
-      idealAnswerSummary: "A optimal low-latency RAG pipeline utilizes smart document chunking (256-512 tokens with 50-token overlap), pre-computed sentence-transformer embeddings cached in Redis, and asynchronous retrieval via FastAPI background tasks. ChromaDB executes HNSW vector search with cosine distance, returning top-k relevant chunks to prepend into the LLM system prompt.",
+      sourceDoc: "Software_Engineering_Fundamentals.pdf (Chunk #01)",
+      similarityScore: 0.950,
+      idealAnswerSummary: "Object-Oriented Programming organizes code into classes and objects. Its core principles are Encapsulation (bundling data), Inheritance (reusing code), Polymorphism (multiple forms), and Abstraction (hiding implementation details).",
       starGuide: {
-        situation: "Building a high-throughput mock interview platform with sub-second RAG response times.",
-        task: "Reduce retrieval latency from 1.2s to under 150ms while improving context accuracy.",
-        action: "Implemented semantic caching in Redis, configured HNSW vector indexing in ChromaDB, and parallelized chunk fetching using Python asyncio.",
-        result: "Achieved 120ms average vector lookup latency with 94.8% response accuracy."
+        situation: "Designing a clean software system.",
+        task: "Structure code for easy maintenance and reuse.",
+        action: "Used OOP classes and inheritance patterns.",
+        result: "Reduced duplicated code and improved system maintainability."
       }
     }
   },
   {
-    id: "q-rag-02",
-    roleId: "fullstack-rag",
-    difficulty: "Senior",
-    question: "How do you handle context window limits and chunk overlapping when storing technical question banks in ChromaDB?",
-    category: "Vector Databases",
-    expectedKeywords: ["Chunking Strategy", "Token Overlap", "Context Window", "HNSW", "Metadata Filtering", "Reranking"],
-    ragBenchmark: {
-      sourceDoc: "Vector_DB_Indexing_Standards.md (Chunk #18)",
-      similarityScore: 0.938,
-      idealAnswerSummary: "Questions and model answers should be split using recursive character text splitters with overlap (e.g. 10% overlap). Metadata filtering (role, difficulty, domain tags) narrows candidate sets before vector distance computation, maximizing context relevance within the 4k-8k LLM prompt window.",
-      starGuide: {
-        situation: "Long technical case studies exceeded LLM context windows during evaluation.",
-        task: "Chunk source documents without severing code snippets or step-by-step math reasoning.",
-        action: "Designed semantic splitter that preserves code block boundaries and adds 15% sliding window overlap.",
-        result: "Eliminated context truncation errors while improving answer relevance scores by 28%."
-      }
-    }
-  },
-  {
-    id: "q-fe-01",
-    roleId: "react-frontend",
-    difficulty: "Senior",
-    question: "What is the difference between React 18 Concurrent Rendering and legacy synchronous rendering, and how does `useTransition` help maintain 60fps UI responsiveness during expensive live search operations?",
-    category: "React Core",
-    expectedKeywords: ["Concurrent Mode", "useTransition", "Fiber Reconciler", "Interruption", "Time Slicing", "Non-blocking UI"],
-    ragBenchmark: {
-      sourceDoc: "React18_Concurrent_Patterns.pdf (Chunk #07)",
-      similarityScore: 0.952,
-      idealAnswerSummary: "React 18 Concurrent Rendering allows React to pause, yield, and resume component rendering. `useTransition` marks updates as non-urgent transitions, allowing urgent user inputs (like typing or voice waveform renders) to take priority, preventing UI jank.",
-      starGuide: {
-        situation: "Live search in a 10,000 question database caused typing lag in candidate input fields.",
-        task: "Ensure keystrokes register instantaneously while background filter updates render asynchronously.",
-        action: "Wrapped vector similarity filter state inside `startTransition`, allowing input events to interrupt filter renders.",
-        result: "Maintained consistent 60 FPS frame rates without needing artificial debouncing."
-      }
-    }
-  },
-  {
-    id: "q-be-01",
-    roleId: "fastapi-backend",
+    id: "q-se-02",
+    roleId: "software-engineer",
     difficulty: "Mid-Level",
-    question: "How does async/await work under the hood in FastAPI with Uvicorn, and when should you use `def` vs `async def` route handlers?",
-    category: "FastAPI",
-    expectedKeywords: ["Event Loop", "GIL", "Thread Pool", "AsyncIO", "Uvicorn", "Non-blocking I/O"],
+    question: "What is the difference between an Array and a Linked List, and when would you choose one over the other?",
+    category: "Data Structures",
+    expectedKeywords: ["Array", "Linked List", "Memory", "Index Lookup", "Insertion"],
     ragBenchmark: {
-      sourceDoc: "FastAPI_Internal_Architecture.md (Chunk #12)",
-      similarityScore: 0.941,
-      idealAnswerSummary: "FastAPI runs on an ASGI event loop (uvicorn). Use `async def` for non-blocking I/O operations (HTTP requests, vector DB queries, MongoDB async drivers). Regular `def` routes run inside an external thread pool managed by Starlette to prevent blocking the main event loop.",
+      sourceDoc: "Data_Structures_Guide.pdf (Chunk #04)",
+      similarityScore: 0.940,
+      idealAnswerSummary: "Arrays store elements in contiguous memory allowing fast O(1) index access. Linked Lists store elements in nodes with pointers, making insertions and deletions fast O(1) without needing memory reallocation.",
       starGuide: {
-        situation: "Blocking MongoDB calls reduced FastAPI server throughput to 50 requests/sec.",
-        task: "Migrate sync database calls to async motor/beanie drivers.",
-        action: "Converted all route handlers to `async def` and replaced synchronous PyMongo operations with Motor async awaitable calls.",
-        result: "Boosted API throughput by 420% under concurrent stress testing."
-      }
-    }
-  },
-  {
-    id: "q-sd-01",
-    roleId: "system-design",
-    difficulty: "Senior",
-    question: "Design a high-scale Vector Search system serving 100M embeddings with sub-50ms p99 latency for AI mock interview benchmarking.",
-    category: "Distributed Systems",
-    expectedKeywords: ["Vector Sharding", "HNSW Index", "Quantization (PQ/SQ)", "Read Replicas", "Consistent Hashing", "Cache Layer"],
-    ragBenchmark: {
-      sourceDoc: "High_Scale_Vector_Engine.pdf (Chunk #89)",
-      similarityScore: 0.971,
-      idealAnswerSummary: "Architect a multi-tiered vector search using Product Quantization (PQ) for memory reduction, HNSW indexes partitioned across nodes via consistent hashing, and an in-memory Redis similarity cache for frequent interview prompt queries.",
-      starGuide: {
-        situation: "Embedding storage scaled past 50GB RAM, increasing latency to >800ms.",
-        task: "Reduce memory footprint and maintain sub-50ms p99 retrieval for global users.",
-        action: "Implemented scalar quantization (SQ8) to shrink embeddings by 75% and deployed 4 read-replica vector clusters behind round-robin load balancers.",
-        result: "p99 retrieval dropped to 38ms with 70% lower infrastructure memory cost."
-      }
-    }
-  },
-  {
-    id: "q-hr-01",
-    roleId: "behavioral-hr",
-    difficulty: "Senior",
-    question: "Describe a situation where a critical backend dependency (e.g. ChromaDB or LLM API) failed right before a production hackathon demo. How did you handle it?",
-    category: "STAR Behavioral",
-    expectedKeywords: ["Fallback Mechanism", "Graceful Degradation", "Crisis Communication", "Root Cause Analysis", "Resilience"],
-    ragBenchmark: {
-      sourceDoc: "Leadership_Behavioral_Matrix.pdf (Chunk #03)",
-      similarityScore: 0.915,
-      idealAnswerSummary: "The ideal STAR answer details: Situation (LLM API rate limited during live demo), Task (Maintain seamless user experience without crashing), Action (Implemented dynamic client-side mock fallback & circuit breaker pattern), Result (Demo succeeded with 100% uptime and judge praise).",
-      starGuide: {
-        situation: "Third-party LLM service threw 429 Rate Limit errors 10 minutes before final project presentation.",
-        task: "Prevent application crashes and provide continuous evaluation metrics for judges.",
-        action: "Quickly enabled local fallback heuristic evaluation engine with pre-cached RAG embeddings and toast status notice.",
-        result: "Judges awarded top scores for system resilience, error handling, and high-availability design."
+        situation: "Building a data queue with frequent insertions.",
+        task: "Choose optimal data structure for speed.",
+        action: "Selected a Linked List structure to avoid array resize overhead.",
+        result: "Achieved fast O(1) insertions."
       }
     }
   },
 
-  // ── Accessible Mid-Level & Junior Presets ─────────────────────────────
+  // ── Game Developer Track ──────────────────────────────────────────────
   {
-    id: "q-rag-mid-01",
-    roleId: "fullstack-rag",
-    difficulty: "Mid-Level",
-    question: "What is Retrieval-Augmented Generation (RAG) and why is vector similarity search used instead of traditional SQL keyword queries when retrieving knowledge context?",
-    category: "RAG Basics",
-    expectedKeywords: ["Vector Embeddings", "Semantic Search", "ChromaDB", "Context Window", "Similarity Score"],
-    ragBenchmark: {
-      sourceDoc: "RAG_Fundamentals_Guide.pdf (Chunk #05)",
-      similarityScore: 0.945,
-      idealAnswerSummary: "RAG combines document retrieval with text generation. Vector search measures semantic similarity (meaning) rather than exact word matches, allowing the LLM to fetch relevant background context even when phrasing differs.",
-      starGuide: {
-        situation: "Users asked questions using synonyms not present in documentation keywords.",
-        task: "Enable intelligent search that understands user intent.",
-        action: "Stored document chunks as vector embeddings in ChromaDB and queried via cosine distance.",
-        result: "Search accuracy improved by 45% over standard SQL LIKE queries."
-      }
-    }
-  },
-  {
-    id: "q-rag-jr-01",
-    roleId: "fullstack-rag",
+    id: "q-gd-01",
+    roleId: "game-developer",
     difficulty: "Junior",
-    question: "How do you connect a React frontend to a FastAPI backend endpoint, and how do you handle loading state while waiting for an API response?",
-    category: "Fullstack Integration",
-    expectedKeywords: ["Fetch API", "Async/Await", "useState", "JSON Response", "CORS"],
+    question: "What is the Game Loop in game engines like Unity or Unreal, and what happens during the Update vs FixedUpdate functions?",
+    category: "Game Dev Basics",
+    expectedKeywords: ["Game Loop", "Update", "FixedUpdate", "Frame Rate", "Physics"],
     ragBenchmark: {
-      sourceDoc: "Fullstack_React_FastAPI_Basics.md (Chunk #02)",
-      similarityScore: 0.920,
-      idealAnswerSummary: "Use JavaScript fetch() or axios with async/await to call the FastAPI endpoint. Set a loading boolean state to true before fetching and false once the JSON response is parsed into component state.",
-      starGuide: {
-        situation: "Users experienced blank screens during slow network calls.",
-        task: "Provide clear visual feedback while data loads.",
-        action: "Added loading spinner state updated via try-catch-finally blocks during API calls.",
-        result: "Improved user experience and reduced duplicate button clicks."
-      }
-    }
-  },
-  {
-    id: "q-fe-mid-01",
-    roleId: "react-frontend",
-    difficulty: "Mid-Level",
-    question: "Explain the difference between state and props in React. How do you pass data from a parent component down to a child component?",
-    category: "React Fundamentals",
-    expectedKeywords: ["State", "Props", "Component Tree", "Re-render", "Unidirectional Data Flow"],
-    ragBenchmark: {
-      sourceDoc: "React_State_Management.pdf (Chunk #01)",
+      sourceDoc: "Game_Development_Fundamentals.pdf (Chunk #01)",
       similarityScore: 0.960,
-      idealAnswerSummary: "State is local, mutable component data managed with useState. Props are read-only properties passed down from a parent component to configure child components.",
+      idealAnswerSummary: "The Game Loop runs continuously every frame. Update() is called every visual frame for user input and rendering. FixedUpdate() runs at a fixed time interval for consistent physics calculations.",
       starGuide: {
-        situation: "Child components needed to display dynamic candidate session statistics.",
-        task: "Pass interview metrics cleanly down the React component hierarchy.",
-        action: "Managed central evaluation state in parent component and passed data down via typed props.",
-        result: "Clean component architecture with predictable state rendering."
+        situation: "Character movement felt jittery on different monitors.",
+        task: "Fix frame-rate dependent movement.",
+        action: "Moved physics movement calculations into FixedUpdate using Time.fixedDeltaTime.",
+        result: "Smooth physics movement across all screen frame rates."
       }
     }
   },
   {
-    id: "q-be-jr-01",
-    roleId: "fastapi-backend",
-    difficulty: "Junior",
-    question: "What is FastAPI and what are Pydantic schemas used for when defining API request bodies?",
-    category: "Python API",
-    expectedKeywords: ["FastAPI", "Pydantic", "Request Body", "Validation", "Swagger Docs"],
-    ragBenchmark: {
-      sourceDoc: "FastAPI_Beginners_Guide.md (Chunk #04)",
-      similarityScore: 0.935,
-      idealAnswerSummary: "FastAPI is a high-performance Python web framework. Pydantic models define type annotations for JSON request payloads, providing automatic validation and dynamic OpenAPI documentation.",
-      starGuide: {
-        situation: "Invalid client payloads caused backend runtime errors.",
-        task: "Validate request payloads before processing business logic.",
-        action: "Created Pydantic BaseModel schemas for candidate submissions.",
-        result: "Eliminated invalid data errors with automatic HTTP 422 error responses."
-      }
-    }
-  },
-  {
-    id: "q-hr-mid-01",
-    roleId: "behavioral-hr",
+    id: "q-gd-02",
+    roleId: "game-developer",
     difficulty: "Mid-Level",
-    question: "Tell me about a time you had to learn a new framework or technology quickly under a tight hackathon or sprint deadline.",
-    category: "Adaptability",
-    expectedKeywords: ["Quick Learning", "Prioritization", "Documentation", "Problem Solving", "Teamwork"],
+    question: "How does collision detection work in 2D or 3D games, and what is the difference between a Collider and a Trigger?",
+    category: "Game Physics",
+    expectedKeywords: ["Collision", "Collider", "Trigger", "RigidBody", "Physics Engine"],
     ragBenchmark: {
-      sourceDoc: "Behavioral_Interview_Guide.pdf (Chunk #09)",
-      similarityScore: 0.925,
-      idealAnswerSummary: "A strong STAR answer outlines: Situation (Needed to integrate ChromaDB in 24 hours), Task (Build working vector search), Action (Read core API docs, created quick test scripts, integrated clean API wrapper), Result (Successfully delivered full RAG pipeline on time).",
+      sourceDoc: "Unity_Physics_Guide.pdf (Chunk #03)",
+      similarityScore: 0.940,
+      idealAnswerSummary: "Colliders block objects from passing through each other using physical collision boundaries. Triggers detect when an object enters an area without causing a physical bounce, useful for picking up items or activating checkpoints.",
       starGuide: {
-        situation: "Hackathon project required integrating ChromaDB vector store within 24 hours.",
-        task: "Learn Python vector embeddings API and connect it to React frontend.",
-        action: "Studied official documentation, built isolated prototype scripts, and collaborated closely with team.",
-        result: "Successfully completed Level 3 RAG integration ahead of deadline."
+        situation: "Creating item pickups in a game level.",
+        task: "Detect player touching item without stopping player movement.",
+        action: "Configured item colliders as Triggers and handled OnTriangleEnter events.",
+        result: "Items picked up smoothly without blocking player motion."
+      }
+    }
+  },
+
+  // ── Frontend Developer Track ──────────────────────────────────────────
+  {
+    id: "q-fe-01",
+    roleId: "frontend-developer",
+    difficulty: "Junior",
+    question: "What is the difference between HTML, CSS, and JavaScript when building web pages?",
+    category: "Web Basics",
+    expectedKeywords: ["HTML", "CSS", "JavaScript", "DOM", "Styling"],
+    ragBenchmark: {
+      sourceDoc: "Web_Development_Intro.pdf (Chunk #01)",
+      similarityScore: 0.950,
+      idealAnswerSummary: "HTML provides structure (headings, text, buttons). CSS provides visual layout and styling (colors, fonts, flexbox). JavaScript adds interactivity and dynamic logic.",
+      starGuide: {
+        situation: "Building a interactive website form.",
+        task: "Structure, style, and add dynamic form validation.",
+        action: "Wrote HTML elements, styled with CSS, and validated fields with JavaScript.",
+        result: "Created an attractive, interactive web page."
+      }
+    }
+  },
+  {
+    id: "q-fe-02",
+    roleId: "frontend-developer",
+    difficulty: "Mid-Level",
+    question: "What is React state, and how do you update component state when a user interacts with a button?",
+    category: "React Basics",
+    expectedKeywords: ["State", "useState", "Handler", "Re-render", "Event"],
+    ragBenchmark: {
+      sourceDoc: "React_State_Management.pdf (Chunk #02)",
+      similarityScore: 0.940,
+      idealAnswerSummary: "State is dynamic data managed by useState. When an onClick event fires, calling the state setter function updates the value and triggers React to re-render the component.",
+      starGuide: {
+        situation: "Building a shopping cart item counter.",
+        task: "Update quantity dynamically when user clicks '+' button.",
+        action: "Created a count state with useState and updated it in the button click handler.",
+        result: "UI updated instantly showing new item count."
+      }
+    }
+  },
+
+  // ── Backend Developer Track ───────────────────────────────────────────
+  {
+    id: "q-be-01",
+    roleId: "backend-developer",
+    difficulty: "Junior",
+    question: "How do REST APIs work and what are the common HTTP request methods like GET, POST, and DELETE?",
+    category: "API Basics",
+    expectedKeywords: ["REST API", "GET", "POST", "DELETE", "HTTP", "JSON"],
+    ragBenchmark: {
+      sourceDoc: "REST_API_Fundamentals.pdf (Chunk #01)",
+      similarityScore: 0.950,
+      idealAnswerSummary: "REST APIs use HTTP protocols to exchange JSON data. GET retrieves data, POST creates new data, PUT updates data, and DELETE removes data.",
+      starGuide: {
+        situation: "Building backend API endpoints for a task app.",
+        task: "Create RESTful routes for tasks.",
+        action: "Defined GET /tasks, POST /tasks, and DELETE /tasks endpoints.",
+        result: "Clean REST API integration between frontend and backend."
+      }
+    }
+  },
+  {
+    id: "q-be-02",
+    roleId: "backend-developer",
+    difficulty: "Mid-Level",
+    question: "What is a database index, and how does it speed up queries in SQL or MongoDB databases?",
+    category: "Databases",
+    expectedKeywords: ["Index", "Query Speed", "B-Tree", "MongoDB", "Performance"],
+    ragBenchmark: {
+      sourceDoc: "Database_Indexing.pdf (Chunk #03)",
+      similarityScore: 0.930,
+      idealAnswerSummary: "An index is a data structure (like a B-Tree) that allows the database to look up rows directly without scanning every document in a collection.",
+      starGuide: {
+        situation: "User lookup query taking over 2 seconds on large database.",
+        task: "Optimize query execution speed.",
+        action: "Added an index on the user email field in MongoDB.",
+        result: "Query response time dropped to under 10 milliseconds."
+      }
+    }
+  },
+
+  // ── AI & ML Engineer Track ────────────────────────────────────────────
+  {
+    id: "q-ai-01",
+    roleId: "ai-ml-engineer",
+    difficulty: "Mid-Level",
+    question: "What is Retrieval-Augmented Generation (RAG) and how does it help Large Language Models answer questions accurately?",
+    category: "RAG & LLMs",
+    expectedKeywords: ["RAG", "LLM", "Vector DB", "Embeddings", "Context"],
+    ragBenchmark: {
+      sourceDoc: "RAG_Overview.pdf (Chunk #01)",
+      similarityScore: 0.960,
+      idealAnswerSummary: "RAG retrieves relevant document chunks from a vector database and feeds them into the LLM system prompt so the model generates accurate factual answers.",
+      starGuide: {
+        situation: "AI chatbot hallucinating non-existent company policies.",
+        task: "Provide accurate ground-truth answers.",
+        action: "Implemented ChromaDB vector retrieval to inject relevant policy context into the LLM.",
+        result: "Achieved accurate, verifiable answers backed by company PDFs."
+      }
+    }
+  },
+
+  // ── Behavioral Track ──────────────────────────────────────────────────
+  {
+    id: "q-hr-01",
+    roleId: "behavioral-hr",
+    difficulty: "Junior",
+    question: "Tell me about a project you recently built. What was your role, what challenges did you face, and how did you solve them?",
+    category: "Project Story",
+    expectedKeywords: ["Project", "Challenges", "Problem Solving", "Teamwork", "Result"],
+    ragBenchmark: {
+      sourceDoc: "STAR_Behavioral_Guide.pdf (Chunk #01)",
+      similarityScore: 0.950,
+      idealAnswerSummary: "A great STAR answer outlines: Situation (project background), Task (your goal), Action (how you built or debugged), and Result (the successful final output).",
+      starGuide: {
+        situation: "Building an AI application for a hackathon.",
+        task: "Deliver a working demo within a tight deadline.",
+        action: "Divided tasks cleanly, used modern web tools, and tested user flows.",
+        result: "Completed the project on time with strong team collaboration."
       }
     }
   }
