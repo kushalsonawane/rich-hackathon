@@ -1,65 +1,61 @@
 import React from 'react';
-import { Play, Database, Mic, Sparkles, Award, ShieldCheck, FileText, ArrowRight, Zap, Code, Gamepad2, Layout, Server, Cpu, Users } from 'lucide-react';
+import { ArrowRight, Terminal, Database, Mic, Shield, FileText, Code, Gamepad2, Layout, Server, Cpu, Users } from 'lucide-react';
 
 export default function LandingPage({ onStartInterview, onExploreRag }) {
   const tracks = [
-    { title: "Software Engineer", icon: Code, color: "var(--accent-indigo)", desc: "OOP, Data Structures, REST APIs & Algorithm Logic" },
-    { title: "Game Developer", icon: Gamepad2, color: "var(--accent-cyan)", desc: "Unity, Unreal Engine, Game Loop, Physics & C++" },
-    { title: "Frontend Developer", icon: Layout, color: "var(--accent-emerald)", desc: "HTML/CSS, JavaScript ES6, React State & UI Performance" },
-    { title: "Backend Developer", icon: Server, color: "var(--accent-amber)", desc: "Node.js, FastAPI, SQL/MongoDB Indexing & Security" },
-    { title: "AI & ML Engineer", icon: Cpu, color: "var(--accent-indigo)", desc: "Python, Machine Learning, RAG Pipelines & Vector DBs" },
-    { title: "Behavioral & HR", icon: Users, color: "var(--accent-rose)", desc: "STAR Framework, Leadership, Conflict & Project Stories" }
+    { title: "Software Engineer", icon: Code, topics: "OOP • Data Structures • REST APIs" },
+    { title: "Game Developer", icon: Gamepad2, topics: "Unity • Unreal Engine • Physics" },
+    { title: "Frontend Developer", icon: Layout, topics: "React 18 • Hooks • Performance" },
+    { title: "Backend Developer", icon: Server, topics: "FastAPI • Node.js • Databases" },
+    { title: "AI & ML Engineer", icon: Cpu, topics: "RAG • Vector Search • LLM APIs" },
+    { title: "Behavioral & HR", icon: Users, topics: "STAR Method • Team Stories" }
   ];
 
   return (
-    <div style={{ maxWidth: '1280px', margin: '0 auto', padding: '32px 16px' }}>
+    <div style={{ maxWidth: '1150px', margin: '0 auto', padding: '40px 16px' }}>
       
-      {/* 🚀 Hero Section */}
-      <div className="panel-card" style={{
-        padding: '48px 32px',
-        marginBottom: '36px',
-        background: 'linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(6, 182, 212, 0.05) 100%)',
-        border: '1px solid rgba(99, 102, 241, 0.2)',
-        textAlign: 'center',
-        position: 'relative',
-        overflow: 'hidden'
-      }}>
-        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '16px', background: 'var(--accent-indigo-subtle)', padding: '6px 14px', borderRadius: '20px', border: '1px solid rgba(99, 102, 241, 0.3)' }}>
-          <Sparkles size={16} color="var(--accent-indigo)" />
-          <span style={{ fontSize: '0.82rem', fontWeight: 600, color: 'var(--accent-indigo)' }}>RSS HackMode ON &bull; Team G24 Level 3 Full RAG</span>
+      {/* ── Sleek Minimalist Hero Section ─────────────────────────────── */}
+      <div style={{ textAlign: 'center', marginBottom: '48px', paddingTop: '20px' }}>
+        
+        {/* Monospace Badge */}
+        <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', marginBottom: '20px', background: 'var(--bg-subtle)', border: '1px solid var(--border-subtle)', padding: '5px 14px', borderRadius: '20px' }}>
+          <span className="code-font" style={{ fontSize: '0.78rem', color: 'var(--accent-cyan)', fontWeight: 600 }}>
+            RSS HACKMODE ON &bull; G24 LEVEL 3 FULL RAG
+          </span>
         </div>
 
+        {/* Clean Heading */}
         <h1 style={{
-          fontSize: 'calc(1.8rem + 1.5vw)',
+          fontSize: 'calc(2.2rem + 1.2vw)',
           fontWeight: 800,
           color: 'var(--text-heading)',
-          lineHeight: '1.2',
-          maxWidth: '900px',
-          margin: '0 auto 16px auto',
-          letterSpacing: '-0.02em'
+          lineHeight: '1.15',
+          letterSpacing: '-0.03em',
+          maxWidth: '840px',
+          margin: '0 auto 20px auto'
         }}>
-          Master Technical Interviews with <span style={{ background: 'linear-gradient(90deg, #6366f1, #06b6d4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>AI Vector RAG</span>
+          AI Mock Interviewer for Technical Engineers
         </h1>
 
+        {/* Crisp Description */}
         <p style={{
-          fontSize: '1.05rem',
+          fontSize: '1.08rem',
           color: 'var(--text-muted)',
-          maxWidth: '740px',
-          margin: '0 auto 32px auto',
+          maxWidth: '680px',
+          margin: '0 auto 36px auto',
           lineHeight: '1.6'
         }}>
-          Practice real-world technical interview questions with live voice dictation, ChromaDB HNSW vector similarity evaluation, and instant STAR scorecard feedback.
+          Practice real technical interviews using voice dictation, evaluated against ChromaDB vector embeddings with instant STAR scorecard benchmarks.
         </p>
 
-        {/* Hero Action Buttons */}
-        <div style={{ display: 'flex', justifyContent: 'center', flexWrap: 'wrap', gap: '16px' }}>
+        {/* Primary Actions */}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap', gap: '14px' }}>
           <button
             onClick={onStartInterview}
             className="btn-primary"
-            style={{ padding: '16px 36px', fontSize: '1.05rem', fontWeight: 700, borderRadius: '12px' }}
+            style={{ padding: '14px 32px', fontSize: '1rem', fontWeight: 600, borderRadius: '8px' }}
           >
-            <Play size={20} />
-            Start AI Interview Session
+            Start Interview <ArrowRight size={18} />
           </button>
 
           <button
@@ -68,149 +64,140 @@ export default function LandingPage({ onStartInterview, onExploreRag }) {
               background: 'var(--bg-subtle)',
               border: '1px solid var(--border-strong)',
               color: 'var(--text-heading)',
-              padding: '16px 28px',
-              borderRadius: '12px',
-              fontSize: '1rem',
+              padding: '14px 24px',
+              borderRadius: '8px',
+              fontSize: '0.95rem',
               fontWeight: 600,
               cursor: 'pointer',
               display: 'flex',
               alignItems: 'center',
-              gap: '10px',
-              transition: 'all 0.2s ease'
+              gap: '8px',
+              transition: 'all 0.15s ease'
             }}
           >
-            <Database size={18} color="var(--accent-cyan)" />
-            Explore RAG Vector Engine
+            <Database size={16} color="var(--accent-cyan)" />
+            Inspect RAG Vector Bank
           </button>
         </div>
-
-        {/* Quick Metrics Bar */}
-        <div style={{
-          display: 'flex',
-          justifyContent: 'center',
-          flexWrap: 'wrap',
-          gap: '32px',
-          marginTop: '40px',
-          paddingTop: '24px',
-          borderTop: '1px solid var(--border-subtle)'
-        }}>
-          <div>
-            <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--text-heading)' }}>6+ Tracks</div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Specialized Career Roles</div>
-          </div>
-          <div>
-            <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--accent-cyan)' }}>100% Vector RAG</div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>ChromaDB Indexing</div>
-          </div>
-          <div>
-            <div style={{ fontSize: '1.3rem', fontWeight: 800, color: 'var(--accent-emerald)' }}>Sub-Second</div>
-            <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)' }}>Evaluation Latency</div>
-          </div>
-        </div>
       </div>
 
-      {/* 💡 Feature Cards Grid */}
-      <h2 style={{ fontSize: '1.4rem', color: 'var(--text-heading)', marginBottom: '20px', fontWeight: 700, textAlign: 'center' }}>
-        Why Candidates Choose Our AI Mock Interviewer
-      </h2>
+      {/* ── Monospace Technical Architecture Card ───────────────────────── */}
+      <div className="panel-card" style={{
+        padding: '24px',
+        marginBottom: '48px',
+        background: '#09090b',
+        border: '1px solid var(--border-subtle)',
+        borderRadius: 'var(--radius-lg)'
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '16px', borderBottom: '1px solid #18181b', paddingBottom: '12px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Terminal size={16} color="#06b6d4" />
+            <span className="code-font" style={{ fontSize: '0.82rem', color: '#a1a1aa', fontWeight: 600 }}>
+              rag_evaluation_telemetry.json
+            </span>
+          </div>
+          <span style={{ fontSize: '0.72rem', background: '#18181b', padding: '3px 8px', borderRadius: '4px', color: '#10b981', fontFamily: 'monospace' }}>
+            ● System Active (100% Standalone)
+          </span>
+        </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(270px, 1fr))', gap: '20px', marginBottom: '44px' }}>
+        <pre className="code-font" style={{
+          fontSize: '0.84rem',
+          color: '#e4e4e7',
+          lineHeight: '1.7',
+          margin: 0,
+          overflowX: 'auto'
+        }}>
+          {`{
+  "project": "AI Mock Interview System (G24)",
+  "vector_store": "ChromaDB Persistent Client (HNSW Cosine Space)",
+  "embedding_function": "sentence-transformers (all-MiniLM-L6-v2)",
+  "speech_dictation": "Web Speech API (Chrome / Edge Engine)",
+  "evaluation_metrics": ["Technical Depth", "Vector Distance", "STAR Structure", "Pacing WPM"],
+  "export_formats": ["Printable PDF Scorecard", "JSON Transcript Log"]
+}`}
+        </pre>
+      </div>
+
+      {/* ── 3-Column Core Capabilities ─────────────────────────────────── */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px', marginBottom: '56px' }}>
         
         <div className="panel-card" style={{ padding: '24px' }}>
-          <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'var(--accent-indigo-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
-            <Mic size={22} color="var(--accent-indigo)" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+            <Mic size={20} color="var(--accent-indigo)" />
+            <h3 style={{ fontSize: '1.05rem', color: 'var(--text-heading)', fontWeight: 700 }}>Voice Dictation & WPM Meter</h3>
           </div>
-          <h3 style={{ fontSize: '1.1rem', color: 'var(--text-heading)', fontWeight: 700, marginBottom: '8px' }}>
-            Voice Dictation & WPM Meter
-          </h3>
           <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
-            Speak naturally into Microsoft Edge or Chrome. Features live talking pace telemetry (WPM) and mic input visualization.
+            Speak answers directly into the browser. Captures real-time audio waveforms, microphone levels, and words-per-minute pacing metrics.
           </p>
         </div>
 
         <div className="panel-card" style={{ padding: '24px' }}>
-          <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'var(--accent-cyan-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
-            <Database size={22} color="var(--accent-cyan)" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+            <Database size={20} color="var(--accent-cyan)" />
+            <h3 style={{ fontSize: '1.05rem', color: 'var(--text-heading)', fontWeight: 700 }}>ChromaDB Vector Matching</h3>
           </div>
-          <h3 style={{ fontSize: '1.1rem', color: 'var(--text-heading)', fontWeight: 700, marginBottom: '8px' }}>
-            ChromaDB RAG Benchmarks
-          </h3>
           <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
-            Computes HNSW cosine vector distance between candidate speech and technical document chunks stored in ChromaDB.
+            Computes exact HNSW cosine distance between spoken candidate answers and technical question bank embeddings stored in ChromaDB.
           </p>
         </div>
 
         <div className="panel-card" style={{ padding: '24px' }}>
-          <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'var(--accent-emerald-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
-            <Award size={22} color="var(--accent-emerald)" />
+          <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px' }}>
+            <FileText size={20} color="var(--accent-emerald)" />
+            <h3 style={{ fontSize: '1.05rem', color: 'var(--text-heading)', fontWeight: 700 }}>Printable PDF Scorecards</h3>
           </div>
-          <h3 style={{ fontSize: '1.1rem', color: 'var(--text-heading)', fontWeight: 700, marginBottom: '8px' }}>
-            STAR Scorecard & Audio Readout
-          </h3>
           <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
-            Receive structured 4-metric scorecards (Technical, Vector, STAR, Clarity) with text-to-speech audio feedback.
-          </p>
-        </div>
-
-        <div className="panel-card" style={{ padding: '24px' }}>
-          <div style={{ width: '42px', height: '42px', borderRadius: '10px', background: 'var(--accent-amber-subtle)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' }}>
-            <FileText size={22} color="var(--accent-amber)" />
-          </div>
-          <h3 style={{ fontSize: '1.1rem', color: 'var(--text-heading)', fontWeight: 700, marginBottom: '8px' }}>
-            1-Click Printable PDF Export
-          </h3>
-          <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', lineHeight: '1.5' }}>
-            Export clean, beautifully styled PDF interview reports formatted specifically for hiring managers, judges, and mentors.
+            Generates 1-click printable PDF scorecards with STAR metric breakdowns, audio read-aloud feedback, and transcript logs.
           </p>
         </div>
 
       </div>
 
-      {/* 🎯 Specialization Tracks Grid */}
-      <div className="panel-card" style={{ padding: '32px', marginBottom: '40px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', marginBottom: '24px' }}>
-          <div>
-            <h3 style={{ fontSize: '1.3rem', color: 'var(--text-heading)', fontWeight: 700 }}>Career Specialization Tracks</h3>
-            <p style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: '2px' }}>Pick your domain and start practicing with tailored question banks.</p>
-          </div>
-          <button onClick={onStartInterview} className="btn-primary" style={{ padding: '10px 20px', fontSize: '0.9rem' }}>
-            Select Track <ArrowRight size={16} />
+      {/* ── Specialization Tracks ───────────────────────────────────────── */}
+      <div style={{ marginBottom: '48px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '20px' }}>
+          <h2 style={{ fontSize: '1.25rem', color: 'var(--text-heading)', fontWeight: 700 }}>
+            Specialization Tracks
+          </h2>
+          <button onClick={onStartInterview} style={{ background: 'none', border: 'none', color: 'var(--accent-indigo)', fontSize: '0.88rem', fontWeight: 600, cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '4px' }}>
+            Launch Session <ArrowRight size={14} />
           </button>
         </div>
 
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '16px' }}>
-          {tracks.map((t, idx) => {
-            const IconComponent = t.icon;
+          {tracks.map((t, i) => {
+            const IconComp = t.icon;
             return (
-              <div key={idx} style={{
-                background: 'var(--bg-subtle)',
-                border: '1px solid var(--border-subtle)',
-                borderRadius: 'var(--radius-md)',
-                padding: '18px',
-                transition: 'transform 0.15s ease, border-color 0.15s ease'
-              }} className="panel-card-hover">
+              <div
+                key={i}
+                onClick={onStartInterview}
+                className="panel-card panel-card-hover"
+                style={{ padding: '20px', cursor: 'pointer' }}
+              >
                 <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '8px' }}>
-                  <IconComponent size={20} color={t.color} />
-                  <span style={{ fontWeight: 700, fontSize: '0.98rem', color: 'var(--text-heading)' }}>{t.title}</span>
+                  <IconComp size={18} color="var(--accent-indigo)" />
+                  <span style={{ fontSize: '0.98rem', fontWeight: 700, color: 'var(--text-heading)' }}>{t.title}</span>
                 </div>
-                <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: '1.4' }}>{t.desc}</p>
+                <span className="code-font" style={{ fontSize: '0.76rem', color: 'var(--text-dim)' }}>
+                  {t.topics}
+                </span>
               </div>
             );
           })}
         </div>
       </div>
 
-      {/* 🏁 Bottom Call to Action */}
-      <div className="hero-banner" style={{ padding: '32px', textAlign: 'center' }}>
-        <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-heading)', marginBottom: '8px' }}>
-          Ready to Ace Your Next Interview?
+      {/* ── Bottom CTA ─────────────────────────────────────────────────── */}
+      <div className="panel-card" style={{ padding: '32px', textAlign: 'center', background: 'var(--bg-panel)' }}>
+        <h3 style={{ fontSize: '1.3rem', fontWeight: 700, color: 'var(--text-heading)', marginBottom: '8px' }}>
+          Start Your AI Voice Mock Session
         </h3>
-        <p style={{ color: 'var(--text-muted)', fontSize: '0.95rem', marginBottom: '20px' }}>
-          Start a 5-minute AI voice mock session and get instant vector-benchmarked feedback.
+        <p style={{ color: 'var(--text-muted)', fontSize: '0.9rem', marginBottom: '20px' }}>
+          Select a role track and receive instant vector-benchmarked feedback.
         </p>
-        <button onClick={onStartInterview} className="btn-primary" style={{ padding: '14px 32px', fontSize: '1rem', fontWeight: 700, margin: '0 auto' }}>
-          <Play size={18} />
-          Launch AI Mock Interview Now
+        <button onClick={onStartInterview} className="btn-primary" style={{ padding: '12px 28px', fontSize: '0.95rem', fontWeight: 600, margin: '0 auto' }}>
+          Launch Mock Session <ArrowRight size={16} />
         </button>
       </div>
 
