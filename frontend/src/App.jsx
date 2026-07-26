@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from './components/Header';
+import LandingPage from './components/LandingPage';
 import InterviewHub from './components/InterviewHub';
 import SessionLogs from './components/SessionLogs';
 import RagInspector from './components/RagInspector';
@@ -8,7 +9,7 @@ import SettingsModal from './components/SettingsModal';
 import { API_CONFIG } from './services/api';
 
 export default function App() {
-  const [activeTab, setActiveTab] = useState('interview');
+  const [activeTab, setActiveTab] = useState('landing');
   const [apiConfig, setApiConfig] = useState(API_CONFIG);
   const [localSessions, setLocalSessions] = useState([]);
   
@@ -45,6 +46,13 @@ export default function App() {
 
       {/* Main View Area */}
       <main style={{ flex: 1 }}>
+        {activeTab === 'landing' && (
+          <LandingPage
+            onStartInterview={() => setActiveTab('interview')}
+            onExploreRag={() => setActiveTab('rag-inspector')}
+          />
+        )}
+
         {activeTab === 'interview' && (
           <InterviewHub
             onSessionComplete={handleSessionComplete}

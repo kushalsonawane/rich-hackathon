@@ -1,5 +1,5 @@
 import React from 'react';
-import { Mic, Database, BarChart3, History, Settings, Zap, CheckCircle2, Cpu, Sun, Moon } from 'lucide-react';
+import { Home, Mic, Database, History, Zap, Sun, Moon } from 'lucide-react';
 import { HACKATHON_INFO } from '../data/mockData';
 
 export default function Header({ activeTab, setActiveTab, apiConfig, setApiConfig, theme, toggleTheme }) {
@@ -23,7 +23,10 @@ export default function Header({ activeTab, setActiveTab, apiConfig, setApiConfi
       }}>
         
         {/* Left Branding */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div
+          onClick={() => setActiveTab('landing')}
+          style={{ display: 'flex', alignItems: 'center', gap: '12px', cursor: 'pointer' }}
+        >
           <div style={{
             width: '34px',
             height: '34px',
@@ -57,6 +60,27 @@ export default function Header({ activeTab, setActiveTab, apiConfig, setApiConfi
           borderRadius: '8px',
           border: '1px solid var(--border-subtle)'
         }}>
+          <button
+            onClick={() => setActiveTab('landing')}
+            style={{
+              padding: '6px 14px',
+              borderRadius: '6px',
+              fontSize: '0.84rem',
+              fontWeight: 500,
+              background: activeTab === 'landing' ? 'var(--accent-indigo)' : 'transparent',
+              color: activeTab === 'landing' ? '#fff' : 'var(--text-muted)',
+              border: 'none',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'all 0.15s ease'
+            }}
+          >
+            <Home size={14} />
+            Home
+          </button>
+
           <button
             onClick={() => setActiveTab('interview')}
             style={{
