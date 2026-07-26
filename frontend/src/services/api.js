@@ -95,16 +95,32 @@ export async function evaluateAnswer(question, userAnswer, audioMetrics = {}) {
     if (userText.includes(kw.toLowerCase())) matchedCount++;
   });
   
-  const keywordRatio = keywords.length > 0 ? matchedCount / keywords.length : 0.7;
-  const wordCount = userAnswer.trim().split(/\s+/).length;
+  const keywordRatio = keywords.length > 0 ? matchedCount / keywords.length : 0;
+  const wordCount = userAnswer.trim().split(/\s+/).filter(w => w.length > 0).length;
+
+  // Hard gate: very short or gibberish answers get low scores
+  const isTooShort = wordCount < 8;
+  const isGibberish = keywordRatio === 0 && wordCount < 15;
   
-  // Scoring Math
-  let techScore = Math.min(98, Math.max(65, Math.round(70 + keywordRatio * 25 + Math.min(10, wordCount / 15))));
-  let ragMatch = Math.min(99, Math.max(78, Math.round(82 + keywordRatio * 15)));
-  let starScore = wordCount > 40 ? Math.min(96, Math.round(75 + (wordCount / 100) * 15)) : 70;
-  let clarityScore = Math.min(95, Math.max(75, 90 - (audioMetrics.fillerCount || 0) * 3));
-  
-  let overall = Math.round((techScore * 0.4) + (ragMatch * 0.25) + (starScore * 0.2) + (clarityScore * 0.15));
+  // Scoring Math — strict, realistic scoring
+  let techScore, ragMatch, starScore, clarityScore;
+
+  if (isTooShort || isGibberish) {
+    // Very short / gibberish — low scores
+    techScore = Math.round(20 + keywordRatio * 20);
+    ragMatch  = Math.round(25 + keywordRatio * 15);
+    starScore = 15;
+    clarityScore = Math.min(85, Math.max(30, 70 - (audioMetrics.fillerCount || 0) * 5));
+  } else {
+    // Real answer — score based on keyword coverage + word count
+    techScore = Math.min(98, Math.round(55 + keywordRatio * 35 + Math.min(10, wordCount / 15)));
+    ragMatch  = Math.min(97, Math.round(60 + keywordRatio * 30));
+    starScore = wordCount > 60 ? Math.min(96, Math.round(65 + (wordCount / 120) * 25)) :
+                wordCount > 30 ? 60 : 40;
+    clarityScore = Math.min(95, Math.max(50, 88 - (audioMetrics.fillerCount || 0) * 4));
+  }
+
+  let overall = Math.round((techScore * 0.40) + (ragMatch * 0.25) + (starScore * 0.20) + (clarityScore * 0.15));
 
   // Dynamic feedback synthesis
   const strengths = [];
@@ -112,14 +128,16 @@ export async function evaluateAnswer(question, userAnswer, audioMetrics = {}) {
 
   if (matchedCount > 0) {
     strengths.push(`Mentioned key technical concepts: ${keywords.filter(k => userText.includes(k.toLowerCase())).join(", ") || "core architecture terminology"}.`);
+  } else if (!isTooShort) {
+    strengths.push("Shows understanding of the general problem domain.");
   } else {
-    strengths.push("Good attempt at explaining high-level system flow.");
+    strengths.push("Answer received. Please elaborate with technical depth.");
   }
 
   if (wordCount > 50) {
     strengths.push("Detailed response with sufficient depth and structural context.");
   } else {
-    improvements.push("Expand answer detail. Aim for 80-120 words using the STAR (Situation, Task, Action, Result) method.");
+    improvements.push(`Expand answer detail. Aim for 80-120 words using the STAR (Situation, Task, Action, Result) method. (Current: ${wordCount} words)`);
   }
 
   if (keywords.some(k => !userText.includes(k.toLowerCase()))) {
@@ -139,7 +157,9 @@ export async function evaluateAnswer(question, userAnswer, audioMetrics = {}) {
     ragBenchmark: question.ragBenchmark,
     feedback: overall >= 85 
       ? "Outstanding response! Excellent technical precision and strong alignment with vector-indexed benchmarks."
-      : "Good foundational response. Incorporating explicit metrics and benchmark terminology will boost your score.",
+      : overall >= 60
+      ? "Good foundational response. Incorporating explicit metrics and benchmark terminology will boost your score."
+      : "Answer needs more depth. Please use the STAR framework and cover the vector DB benchmark keywords shown above.",
     keyStrengths: strengths,
     improvements: improvements.length > 0 ? improvements : ["Incorporate specific quantitative performance benchmarks (e.g. latency numbers or throughput metrics)."]
   };
