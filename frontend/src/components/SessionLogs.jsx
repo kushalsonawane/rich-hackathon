@@ -211,22 +211,52 @@ export default function SessionLogs({ localSessions = [] }) {
             </div>
 
             {/* Questions Transcript Replay */}
-            <h4 style={{ fontSize: '1rem', color: 'var(--text-heading)', marginBottom: '12px' }}>Question & Answer Replay</h4>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px' }}>
+              <h4 style={{ fontSize: '1rem', color: 'var(--text-heading)' }}>Question & Answer Replay</h4>
+              <button
+                onClick={() => window.print()}
+                className="btn-secondary no-print"
+                style={{ padding: '4px 10px', fontSize: '0.78rem' }}
+              >
+                Print Log Report
+              </button>
+            </div>
+
             <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
               {selectedSessionModal.questionsAnswered?.map((q, idx) => (
                 <div key={idx} className="panel-box" style={{ padding: '16px' }}>
-                  <div style={{ fontSize: '0.8rem', color: 'var(--accent-cyan)', fontWeight: 600, marginBottom: '4px' }}>
-                    Question #{idx + 1} (Score: {q.score}/100)
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '6px' }}>
+                    <span style={{ fontSize: '0.8rem', color: 'var(--accent-cyan)', fontWeight: 600 }}>
+                      Question #{idx + 1} (Score: {q.score}/100)
+                    </span>
+                    <span style={{ fontSize: '0.78rem', color: 'var(--accent-indigo)', fontWeight: 600 }}>
+                      Vector Distance: {q.ragContextMatch || '0.850'}
+                    </span>
                   </div>
+
                   <div style={{ fontSize: '0.95rem', color: 'var(--text-heading)', fontWeight: 600, marginBottom: '8px' }}>
                     "{q.questionText}"
                   </div>
-                  <div style={{ fontSize: '0.85rem', color: 'var(--text-main)', fontStyle: 'italic', background: 'var(--bg-subtle)', padding: '10px', borderRadius: '8px', borderLeft: '3px solid var(--accent-indigo)' }}>
+
+                  <div style={{ fontSize: '0.85rem', color: 'var(--text-main)', fontStyle: 'italic', background: 'var(--bg-subtle)', padding: '10px', borderRadius: '8px', borderLeft: '3px solid var(--accent-indigo)', marginBottom: '8px' }}>
                     "{q.userAnswerText}"
                   </div>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginTop: '8px' }}>
-                    <strong>RAG Feedback:</strong> {q.feedback}
+
+                  <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: '8px' }}>
+                    <strong style={{ color: 'var(--text-heading)' }}>RAG Feedback:</strong> {q.feedback}
                   </p>
+
+                  {q.keyStrengths && q.keyStrengths.length > 0 && (
+                    <div style={{ fontSize: '0.78rem', color: 'var(--accent-emerald)', marginTop: '4px' }}>
+                      ✓ Strengths: {q.keyStrengths.join(' | ')}
+                    </div>
+                  )}
+
+                  {q.improvements && q.improvements.length > 0 && (
+                    <div style={{ fontSize: '0.78rem', color: 'var(--accent-amber)', marginTop: '2px' }}>
+                      ⚠ Improvements: {q.improvements.join(' | ')}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>

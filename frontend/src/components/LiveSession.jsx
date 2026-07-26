@@ -507,7 +507,21 @@ export default function LiveSession({
           <span style={{ fontSize: '0.88rem', color: 'var(--text-muted)' }}>Target: <strong style={{ color: 'var(--text-heading)' }}>{targetCompany}</strong></span>
         </div>
 
-        <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
+          {(() => {
+            const wordsCount = userAnswer.trim().split(/\s+/).filter(Boolean).length;
+            const liveWpm = seconds > 2 ? Math.round((wordsCount / seconds) * 60) : 0;
+            const paceColor = liveWpm > 160 ? 'var(--accent-amber)' : liveWpm >= 80 ? 'var(--accent-emerald)' : 'var(--accent-cyan)';
+            const paceText  = liveWpm > 160 ? 'Fast Pace' : liveWpm >= 80 ? 'Optimal Pace' : 'Measuring Pace';
+
+            return (
+              <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.82rem', padding: '4px 12px', borderRadius: '16px', background: 'var(--bg-subtle)', border: '1px solid var(--border-subtle)' }}>
+                <span style={{ width: '8px', height: '8px', borderRadius: '50%', background: paceColor }} />
+                <span style={{ color: 'var(--text-muted)' }}>Pace: <strong style={{ color: 'var(--text-heading)' }}>{liveWpm} WPM</strong> ({paceText})</span>
+              </div>
+            );
+          })()}
+
           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.95rem', color: 'var(--text-heading)', background: 'var(--bg-subtle)', padding: '6px 16px', borderRadius: '20px', border: '1px solid var(--border-subtle)' }}>
             <Clock size={16} color="var(--accent-cyan)" />
             <span className="code-font" style={{ fontWeight: 700 }}>{formatTimer(seconds)}</span>

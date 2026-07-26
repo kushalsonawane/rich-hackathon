@@ -1,7 +1,9 @@
-import React from 'react';
-import { Award, CheckCircle2, AlertTriangle, ArrowRight, RotateCcw, Download, Sparkles, Database, FileText } from 'lucide-react';
+import React, { useState } from 'react';
+import { Award, CheckCircle2, AlertTriangle, ArrowRight, RotateCcw, Download, Sparkles, Database, FileText, Printer, Volume2, VolumeX } from 'lucide-react';
 
 export default function FeedbackView({ evaluation, role, candidateName, onRestart }) {
+  const [speakingIdx, setSpeakingIdx] = useState(null);
+
   if (!evaluation) return null;
 
   const { overallScore, breakdown, questionsAnswered, totalDuration, fillerWordsCount, averageWPM } = evaluation;
@@ -23,6 +25,31 @@ export default function FeedbackView({ evaluation, role, candidateName, onRestar
     downloadAnchor.remove();
   };
 
+  const handlePrintPdf = () => {
+    window.print();
+  };
+
+  const handleSpeakFeedback = (qEval, idx) => {
+    if (!('speechSynthesis' in window)) return;
+
+    if (speakingIdx === idx) {
+      window.speechSynthesis.cancel();
+      setSpeakingIdx(null);
+      return;
+    }
+
+    window.speechSynthesis.cancel();
+    const textToSpeak = `Question ${idx + 1}: ${qEval.questionText}. Your score is ${qEval.score} out of 100. Strengths: ${qEval.keyStrengths?.join('. ')}. Improvements: ${qEval.improvements?.join('. ')}.`;
+    const utterance = new SpeechSynthesisUtterance(textToSpeak);
+    utterance.rate = 0.95;
+
+    utterance.onstart = () => setSpeakingIdx(idx);
+    utterance.onend = () => setSpeakingIdx(null);
+    utterance.onerror = () => setSpeakingIdx(null);
+
+    window.speechSynthesis.speak(utterance);
+  };
+
   return (
     <div style={{ maxWidth: '1250px', margin: '0 auto', padding: '28px 16px' }}>
       
@@ -40,7 +67,10 @@ export default function FeedbackView({ evaluation, role, candidateName, onRestar
             </p>
           </div>
 
-          <div style={{ display: 'flex', gap: '12px' }}>
+          <div className="no-print" style={{ display: 'flex', gap: '12px', flexWrap: 'wrap' }}>
+            <button onClick={handlePrintPdf} className="btn-secondary">
+              <Printer size={18} /> Print / Export PDF
+            </button>
             <button onClick={handleExportJson} className="btn-secondary">
               <Download size={18} /> Export JSON Report
             </button>
@@ -158,7 +188,28 @@ export default function FeedbackView({ evaluation, role, candidateName, onRestar
         {questionsAnswered.map((qEval, idx) => (
           <div key={idx} className="panel-card" style={{ padding: '24px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '12px', flexWrap: 'wrap', gap: '8px' }}>
-              <span className="badge badge-indigo">Question #{idx + 1}</span>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                <span className="badge badge-indigo">Question #{idx + 1}</span>
+                <button
+                  onClick={() => handleSpeakFeedback(qEval, idx)}
+                  className="no-print"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    padding: '4px 10px',
+                    fontSize: '0.78rem',
+                    borderRadius: '12px',
+                    border: speakingIdx === idx ? '1px solid var(--accent-emerald)' : '1px solid var(--border-subtle)',
+                    background: speakingIdx === idx ? 'var(--accent-emerald-subtle)' : 'var(--bg-subtle)',
+                    color: speakingIdx === idx ? 'var(--accent-emerald)' : 'var(--text-muted)',
+                    cursor: 'pointer'
+                  }}
+                >
+                  {speakingIdx === idx ? <VolumeX size={14} /> : <Volume2 size={14} />}
+                  {speakingIdx === idx ? 'Stop Audio' : '🔊 Listen to AI Feedback'}
+                </button>
+              </div>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <span style={{ fontSize: '0.85rem', color: 'var(--accent-cyan)', fontWeight: 600 }}>
                   Vector Distance: {qEval.ragContextMatch}
