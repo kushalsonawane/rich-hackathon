@@ -181,20 +181,51 @@ export default function LiveSession({
     return () => cancelAnimationFrame(animId);
   }, [cameraActive, mode]);
 
-  // Video-only camera stream — SpeechRecognition gets EXCLUSIVE mic access (no conflict)
+  // Camera + Mic stream for video feed AND volume meter
   useEffect(() => {
-    let stream;
-    if (cameraActive && mode === 'video') {
-      navigator.mediaDevices?.getUserMedia({ video: true, audio: false })
-        .then((s) => {
-          stream = s;
-          mediaStreamRef.current = s;
-          if (videoRef.current) videoRef.current.srcObject = s;
-        })
-        .catch((err) => console.warn('Camera access notice:', err));
-    }
+    let animId;
+    let micStream;
+
+    const constraints = {
+      audio: true,
+      video: cameraActive && mode === 'video'
+    };
+
+    navigator.mediaDevices?.getUserMedia(constraints)
+      .then((stream) => {
+        micStream = stream;
+        mediaStreamRef.current = stream;
+
+        // Attach video if in video mode
+        if (videoRef.current && cameraActive && mode === 'video') {
+          videoRef.current.srcObject = stream;
+        }
+
+        // Volume meter via AudioContext
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (AudioCtx) {
+          const ctx = new AudioCtx();
+          audioContextRef.current = ctx;
+          const src = ctx.createMediaStreamSource(stream);
+          const analyser = ctx.createAnalyser();
+          analyser.fftSize = 64;
+          src.connect(analyser);
+          const data = new Uint8Array(analyser.frequencyBinCount);
+          const tick = () => {
+            analyser.getByteFrequencyData(data);
+            const avg = data.reduce((a, b) => a + b, 0) / data.length;
+            setMicVolume(Math.min(100, Math.round((avg / 128) * 100)));
+            animId = requestAnimationFrame(tick);
+          };
+          tick();
+        }
+      })
+      .catch((err) => console.warn('Media access:', err));
+
     return () => {
-      if (stream) stream.getTracks().forEach((t) => t.stop());
+      if (animId) cancelAnimationFrame(animId);
+      if (audioContextRef.current) { try { audioContextRef.current.close(); } catch(e){} }
+      if (micStream) micStream.getTracks().forEach((t) => t.stop());
     };
   }, [cameraActive, mode]);
 
@@ -205,14 +236,31 @@ export default function LiveSession({
       if (!SR) return;
 
       const rec = new SR();
-      rec.continuous     = true;
+      rec.continuous     = false;   // false = shorter requests, more reliable on slow/blocked networks
       rec.interimResults = true;
       rec.lang           = 'en-US';
       recognitionRef.current = rec;
 
-      rec.onstart = () => setSpeechStatus('🎙️ Listening... Speak now!');
+      // Timeout: if onstart doesn't fire in 4s, Google/MS servers are unreachable
+      let startedOk = false;
+      const startupTimer = setTimeout(() => {
+        if (!startedOk && isRecordingRef.current) {
+          setSpeechStatus('❌ Speech server unreachable. Open this in Microsoft Edge browser instead of Opera.');
+          isRecordingRef.current = false;
+          setIsRecording(false);
+          try { rec.stop(); } catch(e) {}
+        }
+      }, 4000);
+
+      rec.onstart = () => {
+        startedOk = true;
+        clearTimeout(startupTimer);
+        setSpeechStatus('🎙️ Listening... Speak now!');
+      };
 
       rec.onresult = (event) => {
+        startedOk = true;
+        clearTimeout(startupTimer);
         let interim  = '';
         let finalStr = '';
         for (let i = event.resultIndex; i < event.results.length; i++) {
@@ -228,31 +276,42 @@ export default function LiveSession({
       };
 
       rec.onerror = (err) => {
-        console.warn('Speech recognition error:', err.error);
-        if (err.error === 'not-allowed') {
-          alert('Microphone permission denied! Allow mic for localhost:3000 in browser settings.');
+        clearTimeout(startupTimer);
+        console.error('SR error:', err.error);
+        const errorMsgs = {
+          'not-allowed':        '❌ Mic blocked — click the padlock in address bar → Allow Mic',
+          'no-speech':          '⏳ No speech heard — speak now!',
+          'audio-capture':      '❌ No microphone detected',
+          'network':            '❌ Google Speech server unreachable — try Microsoft Edge browser',
+          'service-not-allowed':'❌ Speech service blocked — try Microsoft Edge browser',
+          'aborted':            '⚠️ Restarting...',
+        };
+        setSpeechStatus(errorMsgs[err.error] || `❌ Error: ${err.error} — try Microsoft Edge`);
+        if (['not-allowed','audio-capture','service-not-allowed','network'].includes(err.error)) {
           isRecordingRef.current = false;
           setIsRecording(false);
         }
-        // 'no-speech' is normal — recognition will auto-restart via onend
       };
 
       rec.onend = () => {
+        clearTimeout(startupTimer);
         if (isRecordingRef.current) {
-          // Restart after a tiny delay — browser needs breathing room
           setTimeout(() => {
             if (!isRecordingRef.current) return;
             startRecognition();
-          }, 100);
+          }, 150);
         } else {
           setSpeechStatus('Dictation stopped.');
         }
       };
 
-      try { rec.start(); } catch (e) { console.warn('rec.start() error:', e); }
+      try { rec.start(); } catch (e) {
+        clearTimeout(startupTimer);
+        console.warn('rec.start() threw:', e);
+        setSpeechStatus(`❌ Cannot start: ${e.message}`);
+      }
     };
 
-    // Expose startRecognition via a ref so toggleRecording can call it
     startRecognitionRef.current = startRecognition;
 
     return () => {
