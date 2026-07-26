@@ -32,6 +32,19 @@ export default function BackgroundCanvas() {
     const render = () => {
       ctx.clearRect(0, 0, width, height);
 
+      // Draw soft ambient gradient lighting spheres in background
+      const g1 = ctx.createRadialGradient(width * 0.15, height * 0.15, 10, width * 0.15, height * 0.15, width * 0.45);
+      g1.addColorStop(0, 'rgba(99, 102, 241, 0.08)');
+      g1.addColorStop(1, 'rgba(99, 102, 241, 0)');
+      ctx.fillStyle = g1;
+      ctx.fillRect(0, 0, width, height);
+
+      const g2 = ctx.createRadialGradient(width * 0.85, height * 0.75, 10, width * 0.85, height * 0.75, width * 0.45);
+      g2.addColorStop(0, 'rgba(6, 182, 212, 0.06)');
+      g2.addColorStop(1, 'rgba(6, 182, 212, 0)');
+      ctx.fillStyle = g2;
+      ctx.fillRect(0, 0, width, height);
+
       // Draw subtle futuristic cyber grid lines
       ctx.strokeStyle = 'rgba(255, 255, 255, 0.015)';
       ctx.lineWidth = 1;
