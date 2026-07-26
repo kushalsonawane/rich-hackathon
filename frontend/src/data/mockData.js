@@ -20,8 +20,8 @@ export const ROLES_CONFIG = [
     category: "Engineering",
     description: "React, Node.js, FastAPI, Vector DBs (ChromaDB), Embeddings & Prompting",
     popularQuestionsCount: 42,
-    difficultyLevels: ["Junior", "Mid-Level", "Senior", "Principal Lead"],
-    defaultDifficulty: "Senior",
+    difficultyLevels: ["Junior", "Mid-Level", "Senior"],
+    defaultDifficulty: "Mid-Level",
     targetCompanies: ["OpenAI", "Anthropic", "Google", "Rich Systems Solution", "Stripe"],
     topics: ["RAG Architecture", "Vector Embeddings", "React State Management", "FastAPI Endpoints", "MongoDB Indexing"]
   },
@@ -33,7 +33,7 @@ export const ROLES_CONFIG = [
     description: "Modern React 18/19, Custom Hooks, Performance Optimization, WebSockets & Accessibility",
     popularQuestionsCount: 38,
     difficultyLevels: ["Junior", "Mid-Level", "Senior"],
-    defaultDifficulty: "Senior",
+    defaultDifficulty: "Mid-Level",
     targetCompanies: ["Vercel", "Meta", "Airbnb", "Microsoft", "Uber"],
     topics: ["Virtual DOM & Reconciliation", "React Fiber", "Custom Hooks & Context", "CSS Glassmorphism & Animations", "Web Vitals"]
   },
@@ -44,7 +44,7 @@ export const ROLES_CONFIG = [
     category: "Backend",
     description: "Async Python, Pydantic, Microservices, MongoDB aggregation, & ChromaDB RAG pipelines",
     popularQuestionsCount: 35,
-    difficultyLevels: ["Mid-Level", "Senior", "Lead"],
+    difficultyLevels: ["Junior", "Mid-Level", "Senior"],
     defaultDifficulty: "Mid-Level",
     targetCompanies: ["FastAPI Inc", "Databricks", "Amazon AWS", "Snowflake"],
     topics: ["AsyncIO Event Loop", "Dependency Injection", "ChromaDB Similarity Search", "JWT Authentication", "Database Indexing"]
@@ -56,8 +56,8 @@ export const ROLES_CONFIG = [
     category: "Architecture",
     description: "High Availability, Cache Invalidation, Vector Search Scaling, Load Balancing & Sharding",
     popularQuestionsCount: 29,
-    difficultyLevels: ["Senior", "Staff Architect"],
-    defaultDifficulty: "Senior",
+    difficultyLevels: ["Mid-Level", "Senior", "Staff Architect"],
+    defaultDifficulty: "Mid-Level",
     targetCompanies: ["Netflix", "Meta", "Google Cloud", "Amazon"],
     topics: ["Vector Database Sharding", "RAG Pipeline Latency", "Consistent Hashing", "Message Queues (Kafka)", "CQRS Pattern"]
   },
@@ -68,8 +68,8 @@ export const ROLES_CONFIG = [
     category: "Behavioral",
     description: "STAR Technique, Conflict Resolution, Technical Leadership, and Stakeholder Management",
     popularQuestionsCount: 25,
-    difficultyLevels: ["Any Level"],
-    defaultDifficulty: "Senior",
+    difficultyLevels: ["Junior", "Mid-Level", "Senior"],
+    defaultDifficulty: "Mid-Level",
     targetCompanies: ["All Fortune 500 Companies"],
     topics: ["STAR Framework", "Handling Disagreements", "Deadlines Under Pressure", "Mentoring Juniors", "Prioritization"]
   }
@@ -187,6 +187,103 @@ export const INITIAL_QUESTION_BANK = [
         task: "Prevent application crashes and provide continuous evaluation metrics for judges.",
         action: "Quickly enabled local fallback heuristic evaluation engine with pre-cached RAG embeddings and toast status notice.",
         result: "Judges awarded top scores for system resilience, error handling, and high-availability design."
+      }
+    }
+  },
+
+  // ── Accessible Mid-Level & Junior Presets ─────────────────────────────
+  {
+    id: "q-rag-mid-01",
+    roleId: "fullstack-rag",
+    difficulty: "Mid-Level",
+    question: "What is Retrieval-Augmented Generation (RAG) and why is vector similarity search used instead of traditional SQL keyword queries when retrieving knowledge context?",
+    category: "RAG Basics",
+    expectedKeywords: ["Vector Embeddings", "Semantic Search", "ChromaDB", "Context Window", "Similarity Score"],
+    ragBenchmark: {
+      sourceDoc: "RAG_Fundamentals_Guide.pdf (Chunk #05)",
+      similarityScore: 0.945,
+      idealAnswerSummary: "RAG combines document retrieval with text generation. Vector search measures semantic similarity (meaning) rather than exact word matches, allowing the LLM to fetch relevant background context even when phrasing differs.",
+      starGuide: {
+        situation: "Users asked questions using synonyms not present in documentation keywords.",
+        task: "Enable intelligent search that understands user intent.",
+        action: "Stored document chunks as vector embeddings in ChromaDB and queried via cosine distance.",
+        result: "Search accuracy improved by 45% over standard SQL LIKE queries."
+      }
+    }
+  },
+  {
+    id: "q-rag-jr-01",
+    roleId: "fullstack-rag",
+    difficulty: "Junior",
+    question: "How do you connect a React frontend to a FastAPI backend endpoint, and how do you handle loading state while waiting for an API response?",
+    category: "Fullstack Integration",
+    expectedKeywords: ["Fetch API", "Async/Await", "useState", "JSON Response", "CORS"],
+    ragBenchmark: {
+      sourceDoc: "Fullstack_React_FastAPI_Basics.md (Chunk #02)",
+      similarityScore: 0.920,
+      idealAnswerSummary: "Use JavaScript fetch() or axios with async/await to call the FastAPI endpoint. Set a loading boolean state to true before fetching and false once the JSON response is parsed into component state.",
+      starGuide: {
+        situation: "Users experienced blank screens during slow network calls.",
+        task: "Provide clear visual feedback while data loads.",
+        action: "Added loading spinner state updated via try-catch-finally blocks during API calls.",
+        result: "Improved user experience and reduced duplicate button clicks."
+      }
+    }
+  },
+  {
+    id: "q-fe-mid-01",
+    roleId: "react-frontend",
+    difficulty: "Mid-Level",
+    question: "Explain the difference between state and props in React. How do you pass data from a parent component down to a child component?",
+    category: "React Fundamentals",
+    expectedKeywords: ["State", "Props", "Component Tree", "Re-render", "Unidirectional Data Flow"],
+    ragBenchmark: {
+      sourceDoc: "React_State_Management.pdf (Chunk #01)",
+      similarityScore: 0.960,
+      idealAnswerSummary: "State is local, mutable component data managed with useState. Props are read-only properties passed down from a parent component to configure child components.",
+      starGuide: {
+        situation: "Child components needed to display dynamic candidate session statistics.",
+        task: "Pass interview metrics cleanly down the React component hierarchy.",
+        action: "Managed central evaluation state in parent component and passed data down via typed props.",
+        result: "Clean component architecture with predictable state rendering."
+      }
+    }
+  },
+  {
+    id: "q-be-jr-01",
+    roleId: "fastapi-backend",
+    difficulty: "Junior",
+    question: "What is FastAPI and what are Pydantic schemas used for when defining API request bodies?",
+    category: "Python API",
+    expectedKeywords: ["FastAPI", "Pydantic", "Request Body", "Validation", "Swagger Docs"],
+    ragBenchmark: {
+      sourceDoc: "FastAPI_Beginners_Guide.md (Chunk #04)",
+      similarityScore: 0.935,
+      idealAnswerSummary: "FastAPI is a high-performance Python web framework. Pydantic models define type annotations for JSON request payloads, providing automatic validation and dynamic OpenAPI documentation.",
+      starGuide: {
+        situation: "Invalid client payloads caused backend runtime errors.",
+        task: "Validate request payloads before processing business logic.",
+        action: "Created Pydantic BaseModel schemas for candidate submissions.",
+        result: "Eliminated invalid data errors with automatic HTTP 422 error responses."
+      }
+    }
+  },
+  {
+    id: "q-hr-mid-01",
+    roleId: "behavioral-hr",
+    difficulty: "Mid-Level",
+    question: "Tell me about a time you had to learn a new framework or technology quickly under a tight hackathon or sprint deadline.",
+    category: "Adaptability",
+    expectedKeywords: ["Quick Learning", "Prioritization", "Documentation", "Problem Solving", "Teamwork"],
+    ragBenchmark: {
+      sourceDoc: "Behavioral_Interview_Guide.pdf (Chunk #09)",
+      similarityScore: 0.925,
+      idealAnswerSummary: "A strong STAR answer outlines: Situation (Needed to integrate ChromaDB in 24 hours), Task (Build working vector search), Action (Read core API docs, created quick test scripts, integrated clean API wrapper), Result (Successfully delivered full RAG pipeline on time).",
+      starGuide: {
+        situation: "Hackathon project required integrating ChromaDB vector store within 24 hours.",
+        task: "Learn Python vector embeddings API and connect it to React frontend.",
+        action: "Studied official documentation, built isolated prototype scripts, and collaborated closely with team.",
+        result: "Successfully completed Level 3 RAG integration ahead of deadline."
       }
     }
   }
