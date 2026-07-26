@@ -83,66 +83,101 @@ export async function evaluateAnswer(question, userAnswer, audioMetrics = {}) {
     }
   }
 
-  // Intelligent client-side RAG evaluation algorithm
-  await new Promise((resolve) => setTimeout(resolve, 1400)); // Simulate LLM processing
+  // ─── RAG Evaluation Engine ─────────────────────────────────────────────
+  await new Promise((resolve) => setTimeout(resolve, 1400));
 
-  const userText = userAnswer.toLowerCase();
-  const keywords = question.expectedKeywords || [];
-  
-  // Calculate keyword coverage
+  const userText  = userAnswer.toLowerCase().trim();
+  const keywords  = question.expectedKeywords || [];
+  const words     = userText.split(/\s+/).filter(w => w.length > 0);
+  const wordCount = words.length;
+
+  // ── Gibberish Detection ──────────────────────────────────────────────────
+  // 1. Real-word ratio: a real word has at least one vowel
+  const hasVowel   = (w) => /[aeiou]/i.test(w);
+  const realWords  = words.filter(w => w.length >= 3 && hasVowel(w));
+  const realRatio  = wordCount > 0 ? realWords.length / wordCount : 0;
+
+  // 2. Consonant-cluster check: strings like "jwfnfs" have no vowels
+  const isGibberishWord = (w) => w.length > 3 && !hasVowel(w);
+  const gibberishWords  = words.filter(isGibberishWord).length;
+
+  // 3. Vocabulary diversity (unique words / total words)
+  const uniqueWords = new Set(words).size;
+  const diversity   = wordCount > 0 ? uniqueWords / wordCount : 0;
+
+  // ── Flags ────────────────────────────────────────────────────────────────
+  const isPureGibberish = wordCount > 0 && realRatio < 0.4;   // mostly nonsense
+  const hasGibberish    = gibberishWords > 0;
+  const isTooShort      = wordCount < 8;
+  const isLowDiversity  = wordCount > 5 && diversity < 0.5;   // repetitive spam
+
+  // ── Keyword Coverage ─────────────────────────────────────────────────────
   let matchedCount = 0;
-  keywords.forEach(kw => {
-    if (userText.includes(kw.toLowerCase())) matchedCount++;
-  });
-  
+  keywords.forEach(kw => { if (userText.includes(kw.toLowerCase())) matchedCount++; });
   const keywordRatio = keywords.length > 0 ? matchedCount / keywords.length : 0;
-  const wordCount = userAnswer.trim().split(/\s+/).filter(w => w.length > 0).length;
 
-  // Hard gate: very short or gibberish answers get low scores
-  const isTooShort = wordCount < 8;
-  const isGibberish = keywordRatio === 0 && wordCount < 15;
-  
-  // Scoring Math — strict, realistic scoring
+  // ── Scoring Tiers ────────────────────────────────────────────────────────
   let techScore, ragMatch, starScore, clarityScore;
+  const fillers = audioMetrics.fillerCount || 0;
 
-  if (isTooShort || isGibberish) {
-    // Very short / gibberish — low scores
-    techScore = Math.round(20 + keywordRatio * 20);
-    ragMatch  = Math.round(25 + keywordRatio * 15);
-    starScore = 15;
-    clarityScore = Math.min(85, Math.max(30, 70 - (audioMetrics.fillerCount || 0) * 5));
-  } else {
-    // Real answer — score based on keyword coverage + word count
-    techScore = Math.min(98, Math.round(55 + keywordRatio * 35 + Math.min(10, wordCount / 15)));
-    ragMatch  = Math.min(97, Math.round(60 + keywordRatio * 30));
-    starScore = wordCount > 60 ? Math.min(96, Math.round(65 + (wordCount / 120) * 25)) :
-                wordCount > 30 ? 60 : 40;
-    clarityScore = Math.min(95, Math.max(50, 88 - (audioMetrics.fillerCount || 0) * 4));
+  if (isPureGibberish || hasGibberish) {
+    // Tier 0 — Pure gibberish (random chars, no vowels)
+    techScore    = Math.round(5  + keywordRatio * 10);
+    ragMatch     = Math.round(8  + keywordRatio * 10);
+    starScore    = 5;
+    clarityScore = 10;
+
+  } else if (isTooShort || isLowDiversity) {
+    // Tier 1 — Too short / spam / repetitive (< 8 real words)
+    techScore    = Math.round(18 + keywordRatio * 15);
+    ragMatch     = Math.round(20 + keywordRatio * 12);
+    starScore    = 12;
+    clarityScore = Math.min(40, Math.max(15, 35 - fillers * 3));
+
+  } else if (wordCount < 20 && keywordRatio < 0.2) {
+    // Tier 2 — Partial answer, few keywords
+    techScore    = Math.round(35 + keywordRatio * 20);
+    ragMatch     = Math.round(38 + keywordRatio * 18);
+    starScore    = 28;
+    clarityScore = Math.min(60, Math.max(30, 55 - fillers * 4));
+
+  } else if (wordCount >= 20 || keywordRatio >= 0.2) {
+    // Tier 3 — Decent answer with some content
+    techScore    = Math.min(98, Math.round(52 + keywordRatio * 38 + Math.min(10, wordCount / 12)));
+    ragMatch     = Math.min(97, Math.round(55 + keywordRatio * 35));
+    starScore    = wordCount > 60 ? Math.min(96, Math.round(62 + (wordCount / 120) * 28)) :
+                   wordCount > 30 ? 58 : 42;
+    clarityScore = Math.min(95, Math.max(50, 88 - fillers * 4));
   }
 
-  let overall = Math.round((techScore * 0.40) + (ragMatch * 0.25) + (starScore * 0.20) + (clarityScore * 0.15));
+  const overall = Math.round((techScore * 0.40) + (ragMatch * 0.25) + (starScore * 0.20) + (clarityScore * 0.15));
 
-  // Dynamic feedback synthesis
-  const strengths = [];
+  // ── Feedback ──────────────────────────────────────────────────────────────
+  const strengths    = [];
   const improvements = [];
 
-  if (matchedCount > 0) {
-    strengths.push(`Mentioned key technical concepts: ${keywords.filter(k => userText.includes(k.toLowerCase())).join(", ") || "core architecture terminology"}.`);
-  } else if (!isTooShort) {
-    strengths.push("Shows understanding of the general problem domain.");
+  if (isPureGibberish || hasGibberish) {
+    strengths.push('Answer submitted.');
+    improvements.push('Response appears to be random text. Please provide a real technical answer.');
+  } else if (matchedCount > 0) {
+    strengths.push(`Correctly used key terms: ${keywords.filter(k => userText.includes(k.toLowerCase())).slice(0,3).join(', ')}.`);
+  } else if (wordCount >= 20) {
+    strengths.push('Shows some understanding of the problem domain, but lacks technical specificity.');
   } else {
-    strengths.push("Answer received. Please elaborate with technical depth.");
+    strengths.push('Answer received — needs significant expansion.');
   }
 
-  if (wordCount > 50) {
-    strengths.push("Detailed response with sufficient depth and structural context.");
-  } else {
-    improvements.push(`Expand answer detail. Aim for 80-120 words using the STAR (Situation, Task, Action, Result) method. (Current: ${wordCount} words)`);
+  if (wordCount > 60 && !isPureGibberish) {
+    strengths.push('Good response length with sufficient depth.');
+  } else if (!isPureGibberish && !hasGibberish) {
+    improvements.push(`Expand your answer. Target 80–120 words using STAR framework. (Current: ${wordCount} words)`);
   }
 
-  if (keywords.some(k => !userText.includes(k.toLowerCase()))) {
+  if (keywords.length > 0 && keywordRatio < 1) {
     const missing = keywords.filter(k => !userText.includes(k.toLowerCase())).slice(0, 3);
-    improvements.push(`Include specific terminology benchmarked in vector DB: ${missing.join(", ")}.`);
+    if (missing.length > 0) {
+      improvements.push(`Include RAG benchmark keywords: ${missing.join(', ')}.`);
+    }
   }
 
   return {
@@ -155,14 +190,19 @@ export async function evaluateAnswer(question, userAnswer, audioMetrics = {}) {
     },
     ragContextMatch: (ragMatch / 100).toFixed(3),
     ragBenchmark: question.ragBenchmark,
-    feedback: overall >= 85 
-      ? "Outstanding response! Excellent technical precision and strong alignment with vector-indexed benchmarks."
+    feedback: overall >= 82
+      ? 'Outstanding! Excellent technical precision and strong alignment with vector-indexed benchmarks.'
       : overall >= 60
-      ? "Good foundational response. Incorporating explicit metrics and benchmark terminology will boost your score."
-      : "Answer needs more depth. Please use the STAR framework and cover the vector DB benchmark keywords shown above.",
+      ? 'Good foundational response. Add specific metrics and benchmark terminology to boost your score.'
+      : overall >= 35
+      ? 'Answer needs more technical depth. Use the STAR framework and include the benchmark keywords above.'
+      : 'Answer not sufficient. Please provide a real technical response to the question.',
     keyStrengths: strengths,
-    improvements: improvements.length > 0 ? improvements : ["Incorporate specific quantitative performance benchmarks (e.g. latency numbers or throughput metrics)."]
+    improvements: improvements.length > 0
+      ? improvements
+      : ['Add quantitative benchmarks (e.g. latency numbers, throughput metrics) for maximum score.']
   };
+
 }
 
 /**
