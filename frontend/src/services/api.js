@@ -3,7 +3,7 @@ import { INITIAL_QUESTION_BANK, SAMPLE_SESSION_LOGS, CHROMADB_CHUNKS_MOCK } from
 
 // Configurable API Endpoints
 export const API_CONFIG = {
-  expressBaseUrl: "http://localhost:5001/api",
+  expressBaseUrl: "http://localhost:5000/api",
   fastapiRagUrl: "http://localhost:8000/api",
   useRealBackend: true, // Connect to live backend endpoints
   llmModel: "Gemini / GPT-4o RAG Pipeline",
