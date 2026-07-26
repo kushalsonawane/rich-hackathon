@@ -1,0 +1,116 @@
+[
+  {
+    "id": "q-rag-01",
+    "roleId": "fullstack-rag",
+    "difficulty": "Senior",
+    "question": "Explain how you would architect a real-time Retrieval-Augmented Generation (RAG) pipeline using FastAPI, ChromaDB, and OpenAI embeddings, ensuring low-latency retrieval for technical interviews.",
+    "category": "RAG Architecture",
+    "expectedKeywords": ["Embedding", "Cosine Similarity", "ChromaDB", "Chunking", "Top-K Retrieval", "Latency Optimization", "Prompt Injection Defense"],
+    "ragBenchmark": {
+      "sourceDoc": "ChromaDB_RAG_Best_Practices_2026.pdf (Chunk #42)",
+      "similarityScore": 0.964,
+      "idealAnswerSummary": "A optimal low-latency RAG pipeline utilizes smart document chunking (256-512 tokens with 50-token overlap), pre-computed sentence-transformer embeddings cached in Redis, and asynchronous retrieval via FastAPI background tasks. ChromaDB executes HNSW vector search with cosine distance, returning top-k relevant chunks to prepend into the LLM system prompt.",
+      "starGuide": {
+        "situation": "Building a high-throughput mock interview platform with sub-second RAG response times.",
+        "task": "Reduce retrieval latency from 1.2s to under 150ms while improving context accuracy.",
+        "action": "Implemented semantic caching in Redis, configured HNSW vector indexing in ChromaDB, and parallelized chunk fetching using Python asyncio.",
+        "result": "Achieved 120ms average vector lookup latency with 94.8% response accuracy."
+      }
+    }
+  },
+  {
+    "id": "q-rag-02",
+    "roleId": "fullstack-rag",
+    "difficulty": "Senior",
+    "question": "How do you handle context window limits and chunk overlapping when storing technical question banks in ChromaDB?",
+    "category": "Vector Databases",
+    "expectedKeywords": ["Chunking Strategy", "Token Overlap", "Context Window", "HNSW", "Metadata Filtering", "Reranking"],
+    "ragBenchmark": {
+      "sourceDoc": "Vector_DB_Indexing_Standards.md (Chunk #18)",
+      "similarityScore": 0.938,
+      "idealAnswerSummary": "Questions and model answers should be split using recursive character text splitters with overlap (e.g. 10% overlap). Metadata filtering (role, difficulty, domain tags) narrows candidate sets before vector distance computation, maximizing context relevance within the 4k-8k LLM prompt window.",
+      "starGuide": {
+        "situation": "Long technical case studies exceeded LLM context windows during evaluation.",
+        "task": "Chunk source documents without severing code snippets or step-by-step math reasoning.",
+        "action": "Designed semantic splitter that preserves code block boundaries and adds 15% sliding window overlap.",
+        "result": "Eliminated context truncation errors while improving answer relevance scores by 28%."
+      }
+    }
+  },
+  {
+    "id": "q-fe-01",
+    "roleId": "react-frontend",
+    "difficulty": "Senior",
+    "question": "What is the difference between React 18 Concurrent Rendering and legacy synchronous rendering, and how does useTransition help maintain 60fps UI responsiveness during expensive live search operations?",
+    "category": "React Core",
+    "expectedKeywords": ["Concurrent Mode", "useTransition", "Fiber Reconciler", "Interruption", "Time Slicing", "Non-blocking UI"],
+    "ragBenchmark": {
+      "sourceDoc": "React18_Concurrent_Patterns.pdf (Chunk #07)",
+      "similarityScore": 0.952,
+      "idealAnswerSummary": "React 18 Concurrent Rendering allows React to pause, yield, and resume component rendering. useTransition marks updates as non-urgent transitions, allowing urgent user inputs (like typing or voice waveform renders) to take priority, preventing UI jank.",
+      "starGuide": {
+        "situation": "Live search in a 10,000 question database caused typing lag in candidate input fields.",
+        "task": "Ensure keystrokes register instantaneously while background filter updates render asynchronously.",
+        "action": "Wrapped vector similarity filter state inside startTransition, allowing input events to interrupt filter renders.",
+        "result": "Maintained consistent 60 FPS frame rates without needing artificial debouncing."
+      }
+    }
+  },
+  {
+    "id": "q-be-01",
+    "roleId": "fastapi-backend",
+    "difficulty": "Mid-Level",
+    "question": "How does async/await work under the hood in FastAPI with Uvicorn, and when should you use def vs async def route handlers?",
+    "category": "FastAPI",
+    "expectedKeywords": ["Event Loop", "GIL", "Thread Pool", "AsyncIO", "Uvicorn", "Non-blocking I/O"],
+    "ragBenchmark": {
+      "sourceDoc": "FastAPI_Internal_Architecture.md (Chunk #12)",
+      "similarityScore": 0.941,
+      "idealAnswerSummary": "FastAPI runs on an ASGI event loop (uvicorn). Use async def for non-blocking I/O operations (HTTP requests, vector DB queries, MongoDB async drivers). Regular def routes run inside an external thread pool managed by Starlette to prevent blocking the main event loop.",
+      "starGuide": {
+        "situation": "Blocking MongoDB calls reduced FastAPI server throughput to 50 requests/sec.",
+        "task": "Migrate sync database calls to async motor/beanie drivers.",
+        "action": "Converted all route handlers to async def and replaced synchronous PyMongo operations with Motor async awaitable calls.",
+        "result": "Boosted API throughput by 420% under concurrent stress testing."
+      }
+    }
+  },
+  {
+    "id": "q-sd-01",
+    "roleId": "system-design",
+    "difficulty": "Senior",
+    "question": "Design a high-scale Vector Search system serving 100M embeddings with sub-50ms p99 latency for AI mock interview benchmarking.",
+    "category": "Distributed Systems",
+    "expectedKeywords": ["Vector Sharding", "HNSW Index", "Quantization", "Read Replicas", "Consistent Hashing", "Cache Layer"],
+    "ragBenchmark": {
+      "sourceDoc": "High_Scale_Vector_Engine.pdf (Chunk #89)",
+      "similarityScore": 0.971,
+      "idealAnswerSummary": "Architect a multi-tiered vector search using Product Quantization (PQ) for memory reduction, HNSW indexes partitioned across nodes via consistent hashing, and an in-memory Redis similarity cache for frequent interview prompt queries.",
+      "starGuide": {
+        "situation": "Embedding storage scaled past 50GB RAM, increasing latency to >800ms.",
+        "task": "Reduce memory footprint and maintain sub-50ms p99 retrieval for global users.",
+        "action": "Implemented scalar quantization (SQ8) to shrink embeddings by 75% and deployed 4 read-replica vector clusters behind round-robin load balancers.",
+        "result": "p99 retrieval dropped to 38ms with 70% lower infrastructure memory cost."
+      }
+    }
+  },
+  {
+    "id": "q-hr-01",
+    "roleId": "behavioral-hr",
+    "difficulty": "Senior",
+    "question": "Describe a situation where a critical backend dependency failed right before a production hackathon demo. How did you handle it?",
+    "category": "STAR Behavioral",
+    "expectedKeywords": ["Fallback Mechanism", "Graceful Degradation", "Crisis Communication", "Root Cause Analysis", "Resilience"],
+    "ragBenchmark": {
+      "sourceDoc": "Leadership_Behavioral_Matrix.pdf (Chunk #03)",
+      "similarityScore": 0.915,
+      "idealAnswerSummary": "The ideal STAR answer details: Situation (LLM API rate limited during live demo), Task (Maintain seamless user experience without crashing), Action (Implemented dynamic client-side mock fallback and circuit breaker pattern), Result (Demo succeeded with 100% uptime and judge praise).",
+      "starGuide": {
+        "situation": "Third-party LLM service threw 429 Rate Limit errors 10 minutes before final project presentation.",
+        "task": "Prevent application crashes and provide continuous evaluation metrics for judges.",
+        "action": "Quickly enabled local fallback heuristic evaluation engine with pre-cached RAG embeddings.",
+        "result": "Judges awarded top scores for system resilience and high-availability design."
+      }
+    }
+  }
+]
